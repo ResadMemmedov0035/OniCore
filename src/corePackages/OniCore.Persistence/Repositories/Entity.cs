@@ -11,8 +11,8 @@ namespace OniCore.Persistence.Repositories
         public int Id { get; set; }
     }
 
-    public abstract class Entity<TId> where TId : struct
+    public abstract class Entity<TId> : Entity where TId : struct
     {
-        public TId Id { get; set; }
+        public new TId Id { get; set; }
     }
 }
