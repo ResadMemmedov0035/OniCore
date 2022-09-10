@@ -4,12 +4,11 @@ using System.Linq.Expressions;
 
 namespace OniCore.Persistence.Repositories
 {
-    // TODO: Add GetListByDynamicAsync method
     public interface IAsyncRepository<TEntity> where TEntity : Entity, new()
     {
         Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate);
 
-        Task<IPagedList<TEntity>> GetListAsync(int pageIndex = 0, int pageSize = 10,
+        Task<IPagedList<TEntity>> GetListAsync(PaginationParams paginationParams,
             Expression<Func<TEntity, bool>>? predicate = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
             Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,

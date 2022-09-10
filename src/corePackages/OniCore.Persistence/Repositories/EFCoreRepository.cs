@@ -25,11 +25,11 @@ namespace OniCore.Persistence.Repositories
 
         public TEntity Get(Expression<Func<TEntity, bool>> predicate)
         {
-            return Source.FirstOrDefault(predicate) 
+            return Source.FirstOrDefault(predicate)
                 ?? throw new NotFoundException("No item exists for this condition.");
         }
 
-        public IPagedList<TEntity> GetList(int pageIndex = 0, int pageSize = 10,
+        public IPagedList<TEntity> GetList(PaginationParams paginationParams,
             Expression<Func<TEntity, bool>>? predicate = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
             Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
@@ -41,8 +41,8 @@ namespace OniCore.Persistence.Repositories
             if (orderBy != null) query = orderBy(query);
             if (include != null) query = include(query);
 
-            return query.ToPagedList(pageIndex, pageSize);
-        }        
+            return query.ToPagedList(paginationParams.Index, paginationParams.Size);
+        }
 
         public TEntity Add(TEntity entity)
         {
@@ -77,9 +77,9 @@ namespace OniCore.Persistence.Repositories
                 ?? throw new NotFoundException("No item exists for this condition.");
         }
 
-        public async Task<IPagedList<TEntity>> GetListAsync(int pageIndex = 0, int pageSize = 10,
+        public async Task<IPagedList<TEntity>> GetListAsync(PaginationParams paginationParams,
             Expression<Func<TEntity, bool>>? predicate = null,
-            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null, 
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
             Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
             bool enableTracking = false,
             CancellationToken cancellationToken = default)
@@ -90,7 +90,7 @@ namespace OniCore.Persistence.Repositories
             if (orderBy != null) queryable = orderBy(queryable);
             if (include != null) queryable = include(queryable);
 
-            return await queryable.ToPagedListAsync(pageIndex, pageSize, cancellationToken).ConfigureAwait(false);
+            return await queryable.ToPagedListAsync(paginationParams.Index, paginationParams.Size, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<TEntity> AddAsync(TEntity entity)
@@ -117,8 +117,8 @@ namespace OniCore.Persistence.Repositories
         public async Task<bool> AnyAsync(Expression<Func<TEntity, bool>>? predicate = null)
         {
             return predicate == null
-                ? await Source.AnyAsync().ConfigureAwait(false) 
-                : await Source.AnyAsync(predicate).ConfigureAwait(false);
+                 ? await Source.AnyAsync().ConfigureAwait(false)
+                 : await Source.AnyAsync(predicate).ConfigureAwait(false);
         }
     }
 }

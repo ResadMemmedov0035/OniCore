@@ -3,6 +3,7 @@ using KodlamaDevs.Application.Features.ProgrammingLanguages.DTOs;
 using KodlamaDevs.Application.Features.ProgrammingLanguages.Queries;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using OniCore.Persistence.Pagination;
 
 namespace KodlamaDevs.WebAPI.Controllers
 {
@@ -30,20 +31,21 @@ namespace KodlamaDevs.WebAPI.Controllers
         {
             DeletedProgrammingLanguageDTO deleted = await Mediator.Send(deleteCommand);
             return Ok(deleted);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetList([FromQuery] GetProgrammingLanguageListQuery getListQuery)
-        {
-            GetProgrammingLanguageListDTO list = await Mediator.Send(getListQuery);
-            return Ok(list);
-        }
+        }        
 
         [HttpGet("{Id}")]
         public async Task<IActionResult> GetById([FromRoute] GetProgrammingLanguageByIdQuery getByIdQuery)
         {
             GetProgrammingLanguageByIdDTO language = await Mediator.Send(getByIdQuery);
             return Ok(language);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetList([FromQuery] PaginationParams paginationParams)
+        {
+            GetProgrammingLanguageListQuery getListQuery = new() { PaginationParams = paginationParams };
+            GetProgrammingLanguageListDTO list = await Mediator.Send(getListQuery);
+            return Ok(list);
         }
     }
 }

@@ -1,14 +1,10 @@
 ﻿using FluentValidation;
 using KodlamaDevs.Application.Features.ProgrammingLanguages.Rules;
+using KodlamaDevs.Application.Features.Technologies.Rules;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using OniCore.Application.Pipelines.Validation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KodlamaDevs.Application
 {
@@ -21,6 +17,7 @@ namespace KodlamaDevs.Application
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
             services.AddScoped<ProgrammingLanguageBusinessRules>();
+            services.AddScoped<TechnologyBusinessRules>();
 
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
             // other pipelines
