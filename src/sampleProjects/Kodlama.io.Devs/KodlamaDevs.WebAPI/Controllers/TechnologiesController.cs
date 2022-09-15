@@ -3,6 +3,7 @@ using KodlamaDevs.Application.Features.Technologies.DTOs;
 using KodlamaDevs.Application.Features.Technologies.Queries;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using OniCore.Persistence.Dynamic;
 using OniCore.Persistence.Pagination;
 
 namespace KodlamaDevs.WebAPI.Controllers
@@ -47,5 +48,12 @@ namespace KodlamaDevs.WebAPI.Controllers
             return Ok(list);
         }
 
+        [HttpPost("dynamic/filter")]
+        public async Task<IActionResult> GetListByDynamic([FromQuery] PaginationParams paginationParams, [FromBody] DynamicParams dynamicParams)
+        {
+            GetTechnologyListByDynamicQuery getListQuery = new() { PaginationParams = paginationParams, DynamicParams = dynamicParams };
+            GetTechnologyListDTO list = await Mediator.Send(getListQuery);
+            return Ok(list);
+        }
     }
 }

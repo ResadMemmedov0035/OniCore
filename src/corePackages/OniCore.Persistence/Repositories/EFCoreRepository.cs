@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using OniCore.CrossCuttingConcerns.Exceptions.CustomExceptions;
+using OniCore.Persistence.Dynamic;
 using OniCore.Persistence.Pagination;
 using System;
 using System.Collections.Generic;
@@ -39,6 +40,20 @@ namespace OniCore.Persistence.Repositories
 
             if (predicate != null) query = query.Where(predicate);
             if (orderBy != null) query = orderBy(query);
+            if (include != null) query = include(query);
+
+            return query.ToPagedList(paginationParams.Index, paginationParams.Size);
+        }
+
+        public IPagedList<TEntity> GetList(PaginationParams paginationParams, 
+            DynamicParams dynamicParams, 
+            Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null, 
+            bool enableTracking = false)
+        {
+            IQueryable<TEntity> query = enableTracking ? Source.AsTracking() : Source.AsNoTracking();
+
+            if (dynamicParams.Filter != null) query = query.Filter(dynamicParams.Filter);
+            if (dynamicParams.Sorts != null) query = query.Sort(dynamicParams.Sorts);
             if (include != null) query = include(query);
 
             return query.ToPagedList(paginationParams.Index, paginationParams.Size);
@@ -84,13 +99,24 @@ namespace OniCore.Persistence.Repositories
             bool enableTracking = false,
             CancellationToken cancellationToken = default)
         {
-            IQueryable<TEntity> queryable = enableTracking ? Source.AsTracking() : Source.AsNoTracking();
+            IQueryable<TEntity> query = enableTracking ? Source.AsTracking() : Source.AsNoTracking();
 
-            if (predicate != null) queryable = queryable.Where(predicate);
-            if (orderBy != null) queryable = orderBy(queryable);
-            if (include != null) queryable = include(queryable);
+            if (predicate != null) query = query.Where(predicate);
+            if (orderBy != null) query = orderBy(query);
+            if (include != null) query = include(query);
 
-            return await queryable.ToPagedListAsync(paginationParams.Index, paginationParams.Size, cancellationToken).ConfigureAwait(false);
+            return await query.ToPagedListAsync(paginationParams.Index, paginationParams.Size, cancellationToken).ConfigureAwait(false);
+        }
+
+        public async Task<IPagedList<TEntity>> GetListAsync(PaginationParams paginationParams, DynamicParams dynamicParams, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null, bool enableTracking = false, CancellationToken cancellationToken = default)
+        {
+            IQueryable<TEntity> query = enableTracking ? Source.AsTracking() : Source.AsNoTracking();
+
+            if (dynamicParams.Filter != null) query = query.Filter(dynamicParams.Filter);
+            if (dynamicParams.Sorts != null) query = query.Sort(dynamicParams.Sorts);
+            if (include != null) query = include(query);
+
+            return await query.ToPagedListAsync(paginationParams.Index, paginationParams.Size, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<TEntity> AddAsync(TEntity entity)

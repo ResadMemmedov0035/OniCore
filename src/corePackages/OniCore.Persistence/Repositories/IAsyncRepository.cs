@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Query;
+using OniCore.Persistence.Dynamic;
 using OniCore.Persistence.Pagination;
 using System.Linq.Expressions;
 
@@ -11,6 +12,12 @@ namespace OniCore.Persistence.Repositories
         Task<IPagedList<TEntity>> GetListAsync(PaginationParams paginationParams,
             Expression<Func<TEntity, bool>>? predicate = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+            Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
+            bool enableTracking = false,
+            CancellationToken cancellationToken = default);
+
+        Task<IPagedList<TEntity>> GetListAsync(PaginationParams paginationParams, 
+            DynamicParams dynamicParams,
             Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
             bool enableTracking = false,
             CancellationToken cancellationToken = default);
