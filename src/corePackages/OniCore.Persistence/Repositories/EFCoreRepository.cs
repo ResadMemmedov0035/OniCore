@@ -31,10 +31,10 @@ namespace OniCore.Persistence.Repositories
         }
 
         public IPagedList<TEntity> GetList(PaginationParams paginationParams,
-            Expression<Func<TEntity, bool>>? predicate = null,
-            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
-            Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
-            bool enableTracking = false)
+                                           Expression<Func<TEntity, bool>>? predicate = null,
+                                           Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+                                           Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
+                                           bool enableTracking = false)
         {
             IQueryable<TEntity> query = enableTracking ? Source.AsTracking() : Source.AsNoTracking();
 
@@ -45,10 +45,10 @@ namespace OniCore.Persistence.Repositories
             return query.ToPagedList(paginationParams.Index, paginationParams.Size);
         }
 
-        public IPagedList<TEntity> GetList(PaginationParams paginationParams, 
-            DynamicParams dynamicParams, 
-            Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null, 
-            bool enableTracking = false)
+        public IPagedList<TEntity> GetList(PaginationParams paginationParams,
+                                           DynamicParams dynamicParams,
+                                           Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
+                                           bool enableTracking = false)
         {
             IQueryable<TEntity> query = enableTracking ? Source.AsTracking() : Source.AsNoTracking();
 
@@ -93,11 +93,11 @@ namespace OniCore.Persistence.Repositories
         }
 
         public async Task<IPagedList<TEntity>> GetListAsync(PaginationParams paginationParams,
-            Expression<Func<TEntity, bool>>? predicate = null,
-            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
-            Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
-            bool enableTracking = false,
-            CancellationToken cancellationToken = default)
+                                                            Expression<Func<TEntity, bool>>? predicate = null,
+                                                            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
+                                                            Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
+                                                            bool enableTracking = false,
+                                                            CancellationToken cancellationToken = default)
         {
             IQueryable<TEntity> query = enableTracking ? Source.AsTracking() : Source.AsNoTracking();
 
@@ -108,7 +108,11 @@ namespace OniCore.Persistence.Repositories
             return await query.ToPagedListAsync(paginationParams.Index, paginationParams.Size, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<IPagedList<TEntity>> GetListAsync(PaginationParams paginationParams, DynamicParams dynamicParams, Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null, bool enableTracking = false, CancellationToken cancellationToken = default)
+        public async Task<IPagedList<TEntity>> GetListAsync(PaginationParams paginationParams,
+                                                            DynamicParams dynamicParams,
+                                                            Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
+                                                            bool enableTracking = false,
+                                                            CancellationToken cancellationToken = default)
         {
             IQueryable<TEntity> query = enableTracking ? Source.AsTracking() : Source.AsNoTracking();
 

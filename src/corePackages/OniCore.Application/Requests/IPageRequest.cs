@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace OniCore.Application.Requests
 {
+    // TODO: Remove
     public interface IPageRequest
     {
         public int PageIndex { get; set; }
