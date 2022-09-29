@@ -3,6 +3,7 @@ using KodlamaDevs.Application.Features.ProgrammingLanguages.Rules;
 using KodlamaDevs.Application.Features.Technologies.Rules;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using OniCore.Application.Pipelines.Authorization;
 using OniCore.Application.Pipelines.Validation;
 using System.Reflection;
 
@@ -20,6 +21,7 @@ namespace KodlamaDevs.Application
             services.AddScoped<TechnologyBusinessRules>();
 
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationPipelineBehavior<,>));
             // other pipelines
 
             return services;

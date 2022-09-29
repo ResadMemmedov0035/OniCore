@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace OniCore.Security.Extensions
 {
-    internal static class ClaimExtensions
+    public static class ClaimExtensions
     {
         public static void AddNameIdentifier(this ICollection<Claim> claims, string nameIdentifier)
         { 
