@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\corePackages\OniCore.Persistence\OniCore.Persistence.csproj" />
+    <ProjectReference Include="..\..\..\corePackages\OniCore.Security\OniCore.Security.csproj" />
   </ItemGroup>
 
 </Project>

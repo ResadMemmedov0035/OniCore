@@ -4,6 +4,7 @@ using KodlamaDevs.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KodlamaDevs.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220929191453_Add_Users_Claims_Devs")]
+    partial class Add_Users_Claims_Devs
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -198,21 +200,19 @@ namespace KodlamaDevs.Persistence.Migrations
                     b.ToTable("Users", (string)null);
                 });
 
-            modelBuilder.Entity("OperationClaimUser", b =>
+            modelBuilder.Entity("UserOperationClaims", b =>
                 {
                     b.Property<int>("OperationClaimsId")
-                        .HasColumnType("int")
-                        .HasColumnName("OperationClaimId");
+                        .HasColumnType("int");
 
                     b.Property<int>("UsersId")
-                        .HasColumnType("int")
-                        .HasColumnName("UserId");
+                        .HasColumnType("int");
 
                     b.HasKey("OperationClaimsId", "UsersId");
 
                     b.HasIndex("UsersId");
 
-                    b.ToTable("UserOperationClaims", (string)null);
+                    b.ToTable("UserOperationClaims");
                 });
 
             modelBuilder.Entity("KodlamaDevs.Domain.Entities.Developer", b =>
@@ -237,7 +237,7 @@ namespace KodlamaDevs.Persistence.Migrations
                     b.Navigation("ProgrammingLanguage");
                 });
 
-            modelBuilder.Entity("OperationClaimUser", b =>
+            modelBuilder.Entity("UserOperationClaims", b =>
                 {
                     b.HasOne("OniCore.Security.Entities.OperationClaim", null)
                         .WithMany()
