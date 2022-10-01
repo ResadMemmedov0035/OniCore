@@ -1,5 +1,6 @@
 ﻿using KodlamaDevs.Application.Features.Developers.Commands;
 using KodlamaDevs.Application.Features.Developers.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,6 +22,13 @@ namespace KodlamaDevs.WebAPI.Controllers
         {
             AuthorizedDeveloperDTO authorizedDev = await Mediator.Send(loginCommand);
             return Ok(authorizedDev);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete([FromRoute] int id)
+        {
+            DeletedDeveloperDTO deleted = await Mediator.Send(new DeleteDeveloperCommand { Id = id });
+            return Ok(deleted);
         }
     }
 }
