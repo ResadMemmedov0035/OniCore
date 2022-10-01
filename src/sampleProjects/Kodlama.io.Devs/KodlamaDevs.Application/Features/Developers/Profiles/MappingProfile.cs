@@ -21,6 +21,9 @@ namespace KodlamaDevs.Application.Features.Developers.Profiles
             CreateMap<AccessToken, AuthorizedDeveloperDTO>();
 
             CreateMap<Developer, DeletedDeveloperDTO>().ReverseMap();
+
+            CreateMap<Developer, UpdateDeveloperCommand>().ReverseMap();
+            CreateMap<Developer, UpdatedDeveloperDTO>().ReverseMap();
         }
     }
 }

@@ -24,6 +24,13 @@ namespace KodlamaDevs.WebAPI.Controllers
             return Ok(authorizedDev);
         }
 
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] UpdateDeveloperCommand updateCommand)
+        {
+            UpdatedDeveloperDTO updated = await Mediator.Send(updateCommand);
+            return Ok(updated);
+        }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
