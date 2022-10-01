@@ -19,7 +19,7 @@ namespace OniCore.Application.Pipelines.Validation
             _validators = validators;
         }
 
-        public Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
             List<ValidationFailure> errors = _validators
                                             .Select(validator => validator.Validate(request))
@@ -28,7 +28,7 @@ namespace OniCore.Application.Pipelines.Validation
             if (errors.Count > 0)
                 throw new ValidationException(errors);
 
-            return next();
+            return await next();
         }
     }
 }

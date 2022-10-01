@@ -3,6 +3,7 @@ using KodlamaDevs.Application.Features.Technologies.DTOs;
 using KodlamaDevs.Application.Services.Repositories;
 using KodlamaDevs.Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using OniCore.Persistence.Dynamic;
 using OniCore.Persistence.Pagination;
 
@@ -27,7 +28,8 @@ namespace KodlamaDevs.Application.Features.Technologies.Queries
 
         public async Task<GetTechnologyListDTO> Handle(GetTechnologyListByDynamicQuery request, CancellationToken cancellationToken)
         {
-            IPagedList<Technology> technologyList = await _repository.GetListAsync(request.PaginationParams, request.DynamicParams);
+            IPagedList<Technology> technologyList = await _repository.GetListAsync(request.PaginationParams, request.DynamicParams,
+                                                                                   include: x => x.Include(x => x.ProgrammingLanguage));
             return _mapper.Map<GetTechnologyListDTO>(technologyList);
         }
     }

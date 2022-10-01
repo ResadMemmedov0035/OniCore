@@ -86,9 +86,12 @@ namespace OniCore.Persistence.Repositories
         }
 
 
-        public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate)
+        public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate,
+                                            Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null)
         {
-            return await Source.FirstOrDefaultAsync(predicate)
+            IQueryable<TEntity> source = include != null ? include(Source) : Source;
+
+            return await source.FirstOrDefaultAsync(predicate)
                 ?? throw new NotFoundException("No item exists for this condition.");
         }
 

@@ -20,7 +20,7 @@ namespace OniCore.Application.Pipelines.Authorization
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
             List<string> userRoles = _httpContextAccessor.HttpContext.User.ClaimRoles();
 
@@ -28,7 +28,7 @@ namespace OniCore.Application.Pipelines.Authorization
 
             if (!isUserAuthorized) throw new AuthorizationException("You are not authorized.");
 
-            return next();
+            return await next();
         }
     }
 }

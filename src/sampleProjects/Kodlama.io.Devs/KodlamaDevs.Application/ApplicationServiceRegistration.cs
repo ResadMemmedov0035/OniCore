@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using KodlamaDevs.Application.Features.Developers.Rules;
 using KodlamaDevs.Application.Features.ProgrammingLanguages.Rules;
 using KodlamaDevs.Application.Features.Technologies.Rules;
 using MediatR;
@@ -19,6 +20,7 @@ namespace KodlamaDevs.Application
 
             services.AddScoped<ProgrammingLanguageBusinessRules>();
             services.AddScoped<TechnologyBusinessRules>();
+            services.AddScoped<DeveloperBusinessRules>();
 
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationPipelineBehavior<,>));

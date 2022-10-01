@@ -8,11 +8,8 @@ using System.Threading.Tasks;
 
 namespace KodlamaDevs.Domain.Entities
 {
-    public class Developer : Entity
+    public class Developer : User
     {
-        public int UserId { get; set; }
         public string GithubAddress { get; set; }
-
-        public User User { get; set; }
     }
 }

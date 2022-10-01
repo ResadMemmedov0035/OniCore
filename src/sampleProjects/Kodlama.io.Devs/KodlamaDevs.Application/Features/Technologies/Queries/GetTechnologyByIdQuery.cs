@@ -3,6 +3,7 @@ using KodlamaDevs.Application.Features.Technologies.DTOs;
 using KodlamaDevs.Application.Services.Repositories;
 using KodlamaDevs.Domain.Entities;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace KodlamaDevs.Application.Features.Technologies.Queries
 {
@@ -24,7 +25,7 @@ namespace KodlamaDevs.Application.Features.Technologies.Queries
 
         public async Task<GetTechnologyByIdDTO> Handle(GetTechnologyByIdQuery request, CancellationToken cancellationToken)
         {
-            Technology technology = await _repository.GetAsync(x => x.Id == request.Id);
+            Technology technology = await _repository.GetAsync(x => x.Id == request.Id, include: x => x.Include(x => x.ProgrammingLanguage));
             return _mapper.Map<GetTechnologyByIdDTO>(technology);
         }
     }

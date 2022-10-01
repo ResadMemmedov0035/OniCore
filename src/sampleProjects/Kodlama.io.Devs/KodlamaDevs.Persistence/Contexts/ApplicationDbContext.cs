@@ -71,6 +71,12 @@ namespace KodlamaDevs.Persistence.Contexts
                 builder.Property(x => x.Name).HasColumnName("Name").HasMaxLength(50).IsRequired();
             });
 
+            modelBuilder.Entity<Developer>(builder =>
+            {
+                builder.ToTable("Developers");
+                builder.Property(x => x.GithubAddress).HasColumnName("GithubAddress").HasMaxLength(50).IsRequired();
+            });
+
             modelBuilder.Entity<User>()
                         .HasMany(x => x.OperationClaims)
                         .WithMany(x => x.Users)
@@ -80,23 +86,6 @@ namespace KodlamaDevs.Persistence.Contexts
                             b.Property("UsersId").HasColumnName("UserId");
                             b.Property("OperationClaimsId").HasColumnName("OperationClaimId");
                         });
-
-
-            modelBuilder.Entity<Developer>(builder =>
-            {
-                builder.ToTable("Developers").HasKey(x => x.Id);
-                builder.Property(x => x.Id).HasColumnName("Id");
-                builder.Property(x => x.UserId).HasColumnName("UserId");
-                builder.Property(x => x.GithubAddress).HasColumnName("GithubAddress").HasMaxLength(50).IsRequired();
-
-                builder.HasOne(x => x.User);
-            });
-
-            modelBuilder.Entity<Technology>().Navigation(x => x.ProgrammingLanguage).AutoInclude();
-            modelBuilder.Entity<ProgrammingLanguage>().Navigation(x => x.Technologies).AutoInclude();
-            modelBuilder.Entity<User>().Navigation(x => x.OperationClaims).AutoInclude();
-            modelBuilder.Entity<OperationClaim>().Navigation(x => x.Users).AutoInclude();
-            modelBuilder.Entity<Developer>().Navigation(x => x.User).AutoInclude();
         }
     }
 }

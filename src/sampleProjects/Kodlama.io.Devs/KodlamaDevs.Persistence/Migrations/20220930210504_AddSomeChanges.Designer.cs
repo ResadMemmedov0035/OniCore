@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KodlamaDevs.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220929194208_Idk")]
-    partial class Idk
+    [Migration("20220930210504_AddSomeChanges")]
+    partial class AddSomeChanges
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,32 +23,6 @@ namespace KodlamaDevs.Persistence.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("KodlamaDevs.Domain.Entities.Developer", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("Id");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("GithubAddress")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasColumnName("GithubAddress");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int")
-                        .HasColumnName("UserId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Developers", (string)null);
-                });
 
             modelBuilder.Entity("KodlamaDevs.Domain.Entities.ProgrammingLanguage", b =>
                 {
@@ -200,32 +174,43 @@ namespace KodlamaDevs.Persistence.Migrations
                     b.ToTable("Users", (string)null);
                 });
 
-            modelBuilder.Entity("OperationClaimUser", b =>
+            modelBuilder.Entity("OniCore.Security.Entities.UserOperationClaim", b =>
                 {
-                    b.Property<int>("OperationClaimsId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("Id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("OperationClaimId")
                         .HasColumnType("int")
                         .HasColumnName("OperationClaimId");
 
-                    b.Property<int>("UsersId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int")
                         .HasColumnName("UserId");
 
-                    b.HasKey("OperationClaimsId", "UsersId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("UsersId");
+                    b.HasIndex("OperationClaimId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("UserOperationClaims", (string)null);
                 });
 
             modelBuilder.Entity("KodlamaDevs.Domain.Entities.Developer", b =>
                 {
-                    b.HasOne("OniCore.Security.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasBaseType("OniCore.Security.Entities.User");
 
-                    b.Navigation("User");
+                    b.Property<string>("GithubAddress")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("GithubAddress");
+
+                    b.ToTable("Developers", (string)null);
                 });
 
             modelBuilder.Entity("KodlamaDevs.Domain.Entities.Technology", b =>
@@ -239,24 +224,47 @@ namespace KodlamaDevs.Persistence.Migrations
                     b.Navigation("ProgrammingLanguage");
                 });
 
-            modelBuilder.Entity("OperationClaimUser", b =>
+            modelBuilder.Entity("OniCore.Security.Entities.UserOperationClaim", b =>
                 {
-                    b.HasOne("OniCore.Security.Entities.OperationClaim", null)
-                        .WithMany()
-                        .HasForeignKey("OperationClaimsId")
+                    b.HasOne("OniCore.Security.Entities.OperationClaim", "OperationClaim")
+                        .WithMany("UserOperationClaims")
+                        .HasForeignKey("OperationClaimId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("OniCore.Security.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("UsersId")
+                    b.HasOne("OniCore.Security.Entities.User", "User")
+                        .WithMany("UserOperationClaims")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("OperationClaim");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("KodlamaDevs.Domain.Entities.Developer", b =>
+                {
+                    b.HasOne("OniCore.Security.Entities.User", null)
+                        .WithOne()
+                        .HasForeignKey("KodlamaDevs.Domain.Entities.Developer", "Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("KodlamaDevs.Domain.Entities.ProgrammingLanguage", b =>
                 {
                     b.Navigation("Technologies");
+                });
+
+            modelBuilder.Entity("OniCore.Security.Entities.OperationClaim", b =>
+                {
+                    b.Navigation("UserOperationClaims");
+                });
+
+            modelBuilder.Entity("OniCore.Security.Entities.User", b =>
+                {
+                    b.Navigation("UserOperationClaims");
                 });
 #pragma warning restore 612, 618
         }

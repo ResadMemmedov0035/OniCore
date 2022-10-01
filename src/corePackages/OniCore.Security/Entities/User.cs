@@ -14,7 +14,7 @@ namespace OniCore.Security.Entities
         public string Email { get; set; } = string.Empty;
         public byte[] PasswordHash { get; set; } = Array.Empty<byte>();
         public byte[] PasswordSalt { get; set; } = Array.Empty<byte>();
-        public bool Status { get; set; }
+        public bool Status { get; set; } = true;
 
         public ICollection<OperationClaim> OperationClaims { get; set; } = new HashSet<OperationClaim>();
         // RefreshTokens

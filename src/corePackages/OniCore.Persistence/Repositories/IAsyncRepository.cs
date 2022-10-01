@@ -7,7 +7,8 @@ namespace OniCore.Persistence.Repositories
 {
     public interface IAsyncRepository<TEntity> where TEntity : Entity, new()
     {
-        Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate);
+        Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate, 
+            Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null);
 
         Task<IPagedList<TEntity>> GetListAsync(PaginationParams paginationParams,
             Expression<Func<TEntity, bool>>? predicate = null,
