@@ -4,15 +4,18 @@ using KodlamaDevs.Application.Features.Developers.Rules;
 using KodlamaDevs.Application.Services.Repositories;
 using KodlamaDevs.Domain.Entities;
 using MediatR;
+using OniCore.Application.Pipelines.Authorization;
 
 namespace KodlamaDevs.Application.Features.Developers.Commands
 {
-    public class UpdateDeveloperCommand : IRequest<UpdatedDeveloperDTO>
+    public class UpdateDeveloperCommand : IRequest<UpdatedDeveloperDTO>, ISecuredRequest
     {
         public int Id { get; set; }
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
         public string GithubAddress { get; set; } = string.Empty;
+
+        public string[] RequiredRoles => new[] { "user" };
     }
 
     public class UpdateDeveloperCommandHandler : IRequestHandler<UpdateDeveloperCommand, UpdatedDeveloperDTO>
