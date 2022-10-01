@@ -5,7 +5,6 @@ using KodlamaDevs.Application.Services.Repositories;
 using KodlamaDevs.Domain.Entities;
 using MediatR;
 using OniCore.Security.DTOs;
-using OniCore.Security.Entities;
 using OniCore.Security.Hashing;
 using OniCore.Security.Tokens;
 

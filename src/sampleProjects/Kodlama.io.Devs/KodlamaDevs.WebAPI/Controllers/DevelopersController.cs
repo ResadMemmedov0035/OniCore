@@ -15,5 +15,12 @@ namespace KodlamaDevs.WebAPI.Controllers
             AuthorizedDeveloperDTO authorizedDev = await Mediator.Send(registerCommand);
             return Created("", authorizedDev);
         }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] LoginDeveloperCommand loginCommand)
+        {
+            AuthorizedDeveloperDTO authorizedDev = await Mediator.Send(loginCommand);
+            return Ok(authorizedDev);
+        }
     }
 }

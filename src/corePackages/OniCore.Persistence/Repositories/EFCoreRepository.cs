@@ -89,10 +89,11 @@ namespace OniCore.Persistence.Repositories
         public async Task<TEntity> GetAsync(Expression<Func<TEntity, bool>> predicate,
                                             Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null)
         {
-            IQueryable<TEntity> source = include != null ? include(Source) : Source;
+            TEntity? item = include == null
+                          ? await Source.FirstOrDefaultAsync(predicate)
+                          : await include(Source).FirstOrDefaultAsync(predicate);
 
-            return await source.FirstOrDefaultAsync(predicate)
-                ?? throw new NotFoundException("No item exists for this condition.");
+            return item ?? throw new NotFoundException("No item exists for this condition.");
         }
 
         public async Task<IPagedList<TEntity>> GetListAsync(PaginationParams paginationParams,
