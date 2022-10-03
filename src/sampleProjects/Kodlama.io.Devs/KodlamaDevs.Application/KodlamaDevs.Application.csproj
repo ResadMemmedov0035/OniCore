@@ -9,7 +9,6 @@
   <ItemGroup>
     <Folder Include="Features\Developers\Constants\" />
     <Folder Include="Features\Developers\Validators\" />
-    <Folder Include="Features\Developers\Queries\" />
     <Folder Include="Features\ProgrammingLanguages\Constants\" />
     <Folder Include="Features\Technologies\Constants\" />
     <Folder Include="Features\Technologies\Validators\" />

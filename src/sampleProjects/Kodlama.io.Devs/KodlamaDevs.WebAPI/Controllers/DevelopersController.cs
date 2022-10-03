@@ -1,8 +1,10 @@
 ﻿using KodlamaDevs.Application.Features.Developers.Commands;
 using KodlamaDevs.Application.Features.Developers.DTOs;
+using KodlamaDevs.Application.Features.Developers.Queries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using OniCore.Persistence.Pagination;
 
 namespace KodlamaDevs.WebAPI.Controllers
 {
@@ -36,6 +38,20 @@ namespace KodlamaDevs.WebAPI.Controllers
         {
             DeletedDeveloperDTO deleted = await Mediator.Send(new DeleteDeveloperCommand { Id = id });
             return Ok(deleted);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetList([FromQuery] PaginationParams paginationParams)
+        {
+            GetDeveloperListDTO list = await Mediator.Send(new GetDeveloperListQuery { PaginationParams = paginationParams });
+            return Ok(list);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById([FromRoute] int id)
+        {
+            GetDeveloperByIdDTO developer = await Mediator.Send(new GetDeveloperByIdQuery { Id = id });
+            return Ok(developer);
         }
     }
 }
