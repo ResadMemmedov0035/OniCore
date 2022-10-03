@@ -4,19 +4,19 @@ namespace OniCore.Security.Extensions
 {
     public static class ClaimsPrincipalsExtensions
     {
-        public static List<string> Claims(this ClaimsPrincipal claimsPrincipal, string type)
+        public static List<string> GetClaims(this ClaimsPrincipal claimsPrincipal, string type)
         {
             return claimsPrincipal.FindAll(type).Select(x => x.Value).ToList();
         }
 
-        public static List<string> ClaimRoles(this ClaimsPrincipal claimsPrincipal)
+        public static List<string> GetRoles(this ClaimsPrincipal claimsPrincipal)
         {
-            return claimsPrincipal.Claims(ClaimTypes.Role);
+            return claimsPrincipal.GetClaims(ClaimTypes.Role);
         }
 
-        public static int ClaimId(this ClaimsPrincipal claimsPrincipal)
+        public static int GetId(this ClaimsPrincipal claimsPrincipal)
         {
-            return Convert.ToInt32(claimsPrincipal.Claims(ClaimTypes.NameIdentifier).FirstOrDefault());
+            return Convert.ToInt32(claimsPrincipal.GetClaims(ClaimTypes.NameIdentifier).FirstOrDefault());
         }
     }
 }

@@ -22,7 +22,7 @@ namespace OniCore.Application.Pipelines.Authorization
 
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
-            List<string> userRoles = _httpContextAccessor.HttpContext.User.ClaimRoles();
+            List<string> userRoles = _httpContextAccessor.HttpContext.User.GetRoles();
 
             bool isUserAuthorized = userRoles.Any(userRole => request.RequiredRoles.Contains(userRole));
 
