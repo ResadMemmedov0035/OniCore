@@ -16,7 +16,7 @@ namespace KodlamaDevs.WebAPI.Controllers
         public async Task<IActionResult> Register([FromBody] RegisterDeveloperCommand registerCommand)
         {
             AuthorizedDeveloperDTO authorizedDev = await Mediator.Send(registerCommand);
-            return Created("", authorizedDev);
+            return CreatedAtAction(nameof(GetById), new { authorizedDev.Id }, authorizedDev);
         }
 
         [HttpPost("login")]
