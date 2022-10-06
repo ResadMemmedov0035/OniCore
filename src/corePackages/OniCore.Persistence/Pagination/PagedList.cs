@@ -18,21 +18,21 @@ namespace OniCore.Persistence.Pagination
         }
 
         internal PagedList(IEnumerable<T> enumerable, int pageIndex, int pageSize)
-            : this(enumerable.Skip(pageIndex * pageSize).Take(pageSize).ToList(), pageIndex, pageSize, enumerable.Count())
+            : this(enumerable.Skip(pageIndex * pageSize).Take(pageSize).ToList(), pageIndex, pageSize)
         {
         }
 
         internal PagedList(IQueryable<T> queryable, int pageIndex, int pageSize)
-            : this(queryable.Skip(pageIndex * pageSize).Take(pageSize).ToList(), pageIndex, pageSize, queryable.Count())
+            : this(queryable.Skip(pageIndex * pageSize).Take(pageSize).ToList(), pageIndex, pageSize)
         {
         }
 
-        private PagedList(IList<T> items, int pageIndex, int pageSize, int totalItems)
+        private PagedList(IList<T> items, int pageIndex, int pageSize)
         {
             PageIndex = pageIndex;
             PageSize = pageSize;
-            TotalItems = totalItems;
-            TotalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+            TotalItems = items.Count;
+            TotalPages = (int)Math.Ceiling(TotalItems / (double)pageSize);
             Items = items;
             HasPrevious = PageIndex > 0;
             HasNext = PageIndex < TotalPages - 1;
