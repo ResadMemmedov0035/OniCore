@@ -9,13 +9,13 @@ namespace OniCore.Persistence.Repositories
     {
         TEntity Get(Expression<Func<TEntity, bool>> predicate);
 
-        IPagedList<TEntity> GetList(PaginationParams paginationParams,
+        IPagedList<TEntity> GetList(PageParams pageParams,
             Expression<Func<TEntity, bool>>? predicate = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
             Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
             bool enableTracking = false);
 
-        IPagedList<TEntity> GetList(PaginationParams paginationParams,
+        IPagedList<TEntity> GetList(PageParams pageParams,
             DynamicParams dynamicParams,
             Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
             bool enableTracking = false);

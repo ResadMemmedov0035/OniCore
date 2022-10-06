@@ -10,7 +10,7 @@ namespace KodlamaDevs.Application.Features.Technologies.Queries
 {
     public class GetTechnologyListQuery : IRequest<GetTechnologyListDTO>
     {
-        public PaginationParams PaginationParams { get; set; } = new();
+        public PageParams PageParams { get; set; } = new();
     }
 
     public class GetTechnologyListQueryHandler : IRequestHandler<GetTechnologyListQuery, GetTechnologyListDTO>
@@ -26,7 +26,7 @@ namespace KodlamaDevs.Application.Features.Technologies.Queries
 
         public async Task<GetTechnologyListDTO> Handle(GetTechnologyListQuery request, CancellationToken cancellationToken)
         {
-            IPagedList<Technology> technologyList = await _repository.GetListAsync(request.PaginationParams,
+            IPagedList<Technology> technologyList = await _repository.GetListAsync(request.PageParams,
                                                                                    include: x => x.Include(x => x.ProgrammingLanguage));
             return _mapper.Map<GetTechnologyListDTO>(technologyList);
         }

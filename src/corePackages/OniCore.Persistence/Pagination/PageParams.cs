@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OniCore.Persistence.Pagination
 {
-    public class PaginationParams
+    public class PageParams
     {
         public int Index { get; set; }
         public int Size { get; set; } = 10;

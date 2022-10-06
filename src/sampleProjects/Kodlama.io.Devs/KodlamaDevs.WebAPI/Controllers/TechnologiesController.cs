@@ -41,17 +41,17 @@ namespace KodlamaDevs.WebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetList([FromQuery] PaginationParams paginationParams)
+        public async Task<IActionResult> GetList([FromQuery] PageParams pageParams)
         {
-            GetTechnologyListQuery getListQuery = new() { PaginationParams = paginationParams };
+            GetTechnologyListQuery getListQuery = new() { PageParams = pageParams };
             GetTechnologyListDTO list = await Mediator.Send(getListQuery);
             return Ok(list);
         }
 
         [HttpPost("dynamic/filter")]
-        public async Task<IActionResult> GetListByDynamic([FromQuery] PaginationParams paginationParams, [FromBody] DynamicParams dynamicParams)
+        public async Task<IActionResult> GetListByDynamic([FromQuery] PageParams pageParams, [FromBody] DynamicParams dynamicParams)
         {
-            GetTechnologyListByDynamicQuery getListQuery = new() { PaginationParams = paginationParams, DynamicParams = dynamicParams };
+            GetTechnologyListByDynamicQuery getListQuery = new() { PageParams = pageParams, DynamicParams = dynamicParams };
             GetTechnologyListDTO list = await Mediator.Send(getListQuery);
             return Ok(list);
         }

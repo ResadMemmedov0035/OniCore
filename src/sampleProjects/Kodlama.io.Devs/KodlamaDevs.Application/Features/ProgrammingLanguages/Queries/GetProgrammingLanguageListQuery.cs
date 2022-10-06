@@ -9,7 +9,7 @@ namespace KodlamaDevs.Application.Features.ProgrammingLanguages.Queries
 {
     public class GetProgrammingLanguageListQuery : IRequest<GetProgrammingLanguageListDTO>
     {
-        public PaginationParams PaginationParams { get; set; } = new();
+        public PageParams PageParams { get; set; } = new();
     }
 
     public class GetProgrammingLanguageListQueryHandler : IRequestHandler<GetProgrammingLanguageListQuery, GetProgrammingLanguageListDTO>
@@ -25,7 +25,7 @@ namespace KodlamaDevs.Application.Features.ProgrammingLanguages.Queries
 
         public async Task<GetProgrammingLanguageListDTO> Handle(GetProgrammingLanguageListQuery request, CancellationToken cancellationToken)
         {
-            IPagedList<ProgrammingLanguage> languageList = await _repository.GetListAsync(request.PaginationParams);
+            IPagedList<ProgrammingLanguage> languageList = await _repository.GetListAsync(request.PageParams);
             return _mapper.Map<GetProgrammingLanguageListDTO>(languageList);
         }
     }

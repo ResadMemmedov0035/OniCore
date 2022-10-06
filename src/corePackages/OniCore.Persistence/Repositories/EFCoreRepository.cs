@@ -30,7 +30,7 @@ namespace OniCore.Persistence.Repositories
                 ?? throw new NotFoundException("No item exists for this condition.");
         }
 
-        public IPagedList<TEntity> GetList(PaginationParams paginationParams,
+        public IPagedList<TEntity> GetList(PageParams pageParams,
                                            Expression<Func<TEntity, bool>>? predicate = null,
                                            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
                                            Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
@@ -42,10 +42,10 @@ namespace OniCore.Persistence.Repositories
             if (orderBy != null) query = orderBy(query);
             if (include != null) query = include(query);
 
-            return query.ToPagedList(paginationParams.Index, paginationParams.Size);
+            return query.ToPagedList(pageParams.Index, pageParams.Size);
         }
 
-        public IPagedList<TEntity> GetList(PaginationParams paginationParams,
+        public IPagedList<TEntity> GetList(PageParams pageParams,
                                            DynamicParams dynamicParams,
                                            Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
                                            bool enableTracking = false)
@@ -56,7 +56,7 @@ namespace OniCore.Persistence.Repositories
             if (dynamicParams.Sorts != null) query = query.Sort(dynamicParams.Sorts);
             if (include != null) query = include(query);
 
-            return query.ToPagedList(paginationParams.Index, paginationParams.Size);
+            return query.ToPagedList(pageParams.Index, pageParams.Size);
         }
 
         public TEntity Add(TEntity entity)
@@ -96,7 +96,7 @@ namespace OniCore.Persistence.Repositories
             return item ?? throw new NotFoundException("No item exists for this condition.");
         }
 
-        public async Task<IPagedList<TEntity>> GetListAsync(PaginationParams paginationParams,
+        public async Task<IPagedList<TEntity>> GetListAsync(PageParams pageParams,
                                                             Expression<Func<TEntity, bool>>? predicate = null,
                                                             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null,
                                                             Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
@@ -109,10 +109,10 @@ namespace OniCore.Persistence.Repositories
             if (orderBy != null) query = orderBy(query);
             if (include != null) query = include(query);
 
-            return await query.ToPagedListAsync(paginationParams.Index, paginationParams.Size, cancellationToken).ConfigureAwait(false);
+            return await query.ToPagedListAsync(pageParams.Index, pageParams.Size, cancellationToken).ConfigureAwait(false);
         }
 
-        public async Task<IPagedList<TEntity>> GetListAsync(PaginationParams paginationParams,
+        public async Task<IPagedList<TEntity>> GetListAsync(PageParams pageParams,
                                                             DynamicParams dynamicParams,
                                                             Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
                                                             bool enableTracking = false,
@@ -124,7 +124,7 @@ namespace OniCore.Persistence.Repositories
             if (dynamicParams.Sorts != null) query = query.Sort(dynamicParams.Sorts);
             if (include != null) query = include(query);
 
-            return await query.ToPagedListAsync(paginationParams.Index, paginationParams.Size, cancellationToken).ConfigureAwait(false);
+            return await query.ToPagedListAsync(pageParams.Index, pageParams.Size, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<TEntity> AddAsync(TEntity entity)

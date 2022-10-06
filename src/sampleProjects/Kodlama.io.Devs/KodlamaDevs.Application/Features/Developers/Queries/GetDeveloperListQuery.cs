@@ -14,7 +14,7 @@ namespace KodlamaDevs.Application.Features.Developers.Queries
 {
     public class GetDeveloperListQuery : IRequest<GetDeveloperListDTO>
     {
-        public PaginationParams PaginationParams { get; set; } = new();
+        public PageParams PageParams { get; set; } = new();
     }
 
     public class GetDeveloperListQueryHandler : IRequestHandler<GetDeveloperListQuery, GetDeveloperListDTO>
@@ -30,7 +30,7 @@ namespace KodlamaDevs.Application.Features.Developers.Queries
 
         public async Task<GetDeveloperListDTO> Handle(GetDeveloperListQuery request, CancellationToken cancellationToken)
         {
-            IPagedList<Developer> developers = await _developerRepository.GetListAsync(request.PaginationParams);
+            IPagedList<Developer> developers = await _developerRepository.GetListAsync(request.PageParams);
             return _mapper.Map<GetDeveloperListDTO>(developers);
         }
     }

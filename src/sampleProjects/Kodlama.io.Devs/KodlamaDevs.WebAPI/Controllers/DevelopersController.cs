@@ -41,9 +41,9 @@ namespace KodlamaDevs.WebAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetList([FromQuery] PaginationParams paginationParams)
+        public async Task<IActionResult> GetList([FromQuery] PageParams pageParams)
         {
-            GetDeveloperListDTO list = await Mediator.Send(new GetDeveloperListQuery { PaginationParams = paginationParams });
+            GetDeveloperListDTO list = await Mediator.Send(new GetDeveloperListQuery { PageParams = pageParams });
             return Ok(list);
         }
 
