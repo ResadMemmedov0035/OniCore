@@ -1,4 +1,5 @@
 ﻿using OniCore.Persistence.Repositories;
+using OniCore.Security.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +16,9 @@ namespace OniCore.Security.Entities
         public byte[] PasswordHash { get; set; } = Array.Empty<byte>();
         public byte[] PasswordSalt { get; set; } = Array.Empty<byte>();
         public bool Status { get; set; } = true;
+        public AuthenticatorType AuthenticatorType { get; set; }
 
         public ICollection<OperationClaim> OperationClaims { get; set; } = new HashSet<OperationClaim>();
-        // RefreshTokens
-        // AuthenticatorType
+        public ICollection<RefreshToken> RefreshTokens { get; set; } = new HashSet<RefreshToken>();
     }
 }

@@ -5,6 +5,7 @@ using OniCore.Security.Entities;
 using OniCore.Security.Extensions;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 
 namespace OniCore.Security.Tokens
 {
@@ -31,6 +32,18 @@ namespace OniCore.Security.Tokens
             {
                 Token = new JwtSecurityTokenHandler().WriteToken(jwt),
                 Expiration = _accessTokenExpiration
+            };
+        }
+
+        public RefreshToken CreateRefreshToken(User user, string ipAddress)
+        {
+            return new()
+            {
+                UserId = user.Id,
+                Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
+                Created = DateTime.UtcNow,
+                Expiration = DateTime.UtcNow.AddDays(7),
+                CreatedByIp = ipAddress
             };
         }
 

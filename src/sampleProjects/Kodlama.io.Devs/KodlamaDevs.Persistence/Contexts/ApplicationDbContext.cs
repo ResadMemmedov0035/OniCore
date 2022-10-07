@@ -13,6 +13,7 @@ namespace KodlamaDevs.Persistence.Contexts
 
         public DbSet<User> Users { get; set; }
         public DbSet<OperationClaim> OperationClaims { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
         public DbSet<Developer> Developers { get; set; }
 
         public ApplicationDbContext(DbContextOptions options) : base(options) { }
@@ -77,6 +78,21 @@ namespace KodlamaDevs.Persistence.Contexts
                 builder.Property(x => x.GithubAddress).HasColumnName("GithubAddress").HasMaxLength(50).IsRequired();
             });
 
+            modelBuilder.Entity<RefreshToken>(builder =>
+            {
+                builder.ToTable("RefreshTokens").HasKey(x => x.Id);
+                builder.Property(x => x.Id).HasColumnName("Id");
+                builder.Property(x => x.UserId).HasColumnName("UserId");
+                builder.Property(x => x.Token).HasColumnName("Token").HasMaxLength(50);
+                builder.Property(x => x.Created).HasColumnName("Created");
+                builder.Property(x => x.CreatedByIp).HasColumnName("CreatedByIp").HasMaxLength(20);
+                builder.Property(x => x.Expiration).HasColumnName("Expiration");
+                builder.Property(x => x.ReplacedToken).HasColumnName("ReplacedToken").HasMaxLength(50);
+                builder.Property(x => x.Revoked).HasColumnName("Revoked");
+                builder.Property(x => x.RevokedByIp).HasColumnName("RevokedByIp").HasMaxLength(20);
+                builder.Property(x => x.RevokeReason).HasColumnName("RevokeReason").HasMaxLength(100);
+            });
+
             modelBuilder.Entity<User>()
                         .HasMany(x => x.OperationClaims)
                         .WithMany(x => x.Users)
@@ -86,6 +102,10 @@ namespace KodlamaDevs.Persistence.Contexts
                             b.Property("UsersId").HasColumnName("UserId");
                             b.Property("OperationClaimsId").HasColumnName("OperationClaimId");
                         });
+
+            modelBuilder.Entity<User>()
+                        .HasMany(x => x.RefreshTokens)
+                        .WithOne(x => x.User);
         }
     }
 }

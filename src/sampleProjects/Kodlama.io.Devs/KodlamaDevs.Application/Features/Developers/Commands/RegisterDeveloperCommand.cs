@@ -5,6 +5,7 @@ using KodlamaDevs.Application.Services.Repositories;
 using KodlamaDevs.Domain.Entities;
 using MediatR;
 using OniCore.Security.DTOs;
+using OniCore.Security.Entities;
 using OniCore.Security.Hashing;
 using OniCore.Security.Tokens;
 
@@ -13,6 +14,7 @@ namespace KodlamaDevs.Application.Features.Developers.Commands
     public class RegisterDeveloperCommand : UserRegisterDTO, IRequest<AuthorizedDeveloperDTO>
     {
         public string GithubAddress { get; set; } = string.Empty;
+        public string IpAddress { get; set; } = string.Empty;
     }
 
     public class RegisterDeveloperCommandHandler : IRequestHandler<RegisterDeveloperCommand, AuthorizedDeveloperDTO>

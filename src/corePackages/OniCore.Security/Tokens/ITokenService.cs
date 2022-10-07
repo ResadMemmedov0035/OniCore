@@ -10,6 +10,6 @@ namespace OniCore.Security.Tokens
     public interface ITokenService
     {
         public AccessToken CreateToken(User user);
-        // TODO: Refresh Token
+        public RefreshToken CreateRefreshToken(User user, string ipAddress);
     }
 }
