@@ -83,11 +83,11 @@ namespace KodlamaDevs.Persistence.Contexts
                 builder.ToTable("RefreshTokens").HasKey(x => x.Id);
                 builder.Property(x => x.Id).HasColumnName("Id");
                 builder.Property(x => x.UserId).HasColumnName("UserId");
-                builder.Property(x => x.Token).HasColumnName("Token").HasMaxLength(50);
+                builder.Property(x => x.Token).HasColumnName("Token").HasMaxLength(100);
                 builder.Property(x => x.Created).HasColumnName("Created");
                 builder.Property(x => x.CreatedByIp).HasColumnName("CreatedByIp").HasMaxLength(20);
                 builder.Property(x => x.Expiration).HasColumnName("Expiration");
-                builder.Property(x => x.ReplacedToken).HasColumnName("ReplacedToken").HasMaxLength(50);
+                builder.Property(x => x.ReplacedToken).HasColumnName("ReplacedToken").HasMaxLength(100);
                 builder.Property(x => x.Revoked).HasColumnName("Revoked");
                 builder.Property(x => x.RevokedByIp).HasColumnName("RevokedByIp").HasMaxLength(20);
                 builder.Property(x => x.RevokeReason).HasColumnName("RevokeReason").HasMaxLength(100);

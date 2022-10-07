@@ -47,7 +47,13 @@ namespace KodlamaDevs.Application.Features.Developers.Commands
 
             AccessToken accessToken = _tokenService.CreateToken(developer);
 
-            return _mapper.Map(accessToken, _mapper.Map<AuthorizedDeveloperDTO>(developer));
+            AuthorizedDeveloperDTO authorizedDev = new()
+            {
+                AccessToken = accessToken,
+                RefreshToken = developer.RefreshTokens.LastOrDefault() ?? new()
+            };
+
+            return _mapper.Map(developer, authorizedDev);
         }
     }
 }

@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OniCore.Security.Entities;
+using OniCore.Security.Tokens;
+using System.Text.Json.Serialization;
 
 namespace KodlamaDevs.Application.Features.Developers.DTOs
 {
@@ -14,7 +12,8 @@ namespace KodlamaDevs.Application.Features.Developers.DTOs
         public string Email { get; set; } = string.Empty;
         public bool Status { get; set; }
         public string GithubAddress { get; set; } = string.Empty;
-        public string Token { get; set; } = string.Empty;
-        public DateTime Expiration { get; set; }
+        public AccessToken AccessToken { get; set; } = new();
+        [JsonIgnore]
+        public RefreshToken RefreshToken { get; set; } = new();
     }
 }

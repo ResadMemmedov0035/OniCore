@@ -5,11 +5,13 @@ using KodlamaDevs.Application.Services.Repositories;
 using KodlamaDevs.Domain.Entities;
 using MediatR;
 using OniCore.Application.Pipelines.Authorization;
+using System.Text.Json.Serialization;
 
 namespace KodlamaDevs.Application.Features.Developers.Commands
 {
     public class UpdateDeveloperCommand : IRequest<UpdatedDeveloperDTO>, ISecuredRequest
     {
+        [JsonIgnore]
         public int Id { get; set; }
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;

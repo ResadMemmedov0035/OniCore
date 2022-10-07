@@ -40,7 +40,8 @@ namespace OniCore.Security.Tokens
             return new()
             {
                 UserId = user.Id,
-                Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64)),
+                // generates 80 length string with random characters
+                Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(60)), 
                 Created = DateTime.UtcNow,
                 Expiration = DateTime.UtcNow.AddDays(7),
                 CreatedByIp = ipAddress

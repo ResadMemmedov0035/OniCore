@@ -13,12 +13,18 @@ namespace KodlamaDevs.Persistence.Repositories
 
         }
 
-        public void SetRolesByClaimId(Developer developer, int[] claimsIds, bool saveChanges = true)
+        public async Task SetOperationClaim(Developer developer, OperationClaim operationClaim, bool saveChanges = true)
         {
-            List<OperationClaim> claims = Context.Set<OperationClaim>().Where(c => claimsIds.Contains(c.Id)).ToList();
-            claims.ForEach(developer.OperationClaims.Add);
+            developer.OperationClaims.Add(operationClaim);
             if (saveChanges)
-                Context.SaveChanges();
+                await Context.SaveChangesAsync();
+        }
+
+        public async Task SetRefreshToken(Developer developer, RefreshToken refreshToken, bool saveChanges = true)
+        {
+            developer.RefreshTokens.Add(refreshToken);
+            if (saveChanges)
+                await Context.SaveChangesAsync();
         }
     }
 }
