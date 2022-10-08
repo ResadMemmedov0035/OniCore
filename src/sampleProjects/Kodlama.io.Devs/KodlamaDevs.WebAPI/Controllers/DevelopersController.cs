@@ -29,18 +29,18 @@ namespace KodlamaDevs.WebAPI.Controllers
             return Ok(authorizedDev);
         }
 
-        [HttpPut("{Id}")]
-        public async Task<IActionResult> Update([FromRoute(Name = "Id")]int id, [FromBody] UpdateDeveloperCommand updateCommand)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateDeveloperCommand updateCommand)
         {
             updateCommand.Id = id;
             UpdatedDeveloperDTO updated = await Mediator.Send(updateCommand);
             return Ok(updated);
         }
 
-        [HttpDelete("{Id}")]
-        public async Task<IActionResult> Delete([FromRoute] DeleteDeveloperCommand deleteCommand)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            DeletedDeveloperDTO deleted = await Mediator.Send(deleteCommand);
+            DeletedDeveloperDTO deleted = await Mediator.Send(new DeleteDeveloperCommand { Id = id });
             return Ok(deleted);
         }
 
@@ -51,11 +51,18 @@ namespace KodlamaDevs.WebAPI.Controllers
             return Ok(list);
         }
 
-        [HttpGet("{Id}")]
-        public async Task<IActionResult> GetById([FromRoute] GetDeveloperByIdQuery getByIdQuery)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById([FromRoute] int id)
         {
-            GetDeveloperByIdDTO developer = await Mediator.Send(getByIdQuery);
+            GetDeveloperByIdDTO developer = await Mediator.Send(new GetDeveloperByIdQuery { Id = id });
             return Ok(developer);
+        }
+
+        [HttpGet("{id}/claims")]
+        public async Task<IActionResult> GetClaims([FromRoute] int id, [FromQuery] PageParams pageParams)
+        {
+            GetDeveloperClaimListDTO claimList = await Mediator.Send(new GetDeveloperClaimListQuery { Id = id, PageParams = pageParams });
+            return Ok(claimList);
         }
 
         private void WriteRefreshTokenToCookie(RefreshToken refreshToken)

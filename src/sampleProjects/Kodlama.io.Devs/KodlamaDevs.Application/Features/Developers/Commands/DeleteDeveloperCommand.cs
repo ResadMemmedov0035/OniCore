@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using KodlamaDevs.Application.Constants;
 using KodlamaDevs.Application.Features.Developers.DTOs;
 using KodlamaDevs.Application.Services.Repositories;
 using KodlamaDevs.Domain.Entities;
@@ -17,7 +18,7 @@ namespace KodlamaDevs.Application.Features.Developers.Commands
     {
         public int Id { get; set; }
 
-        public string[] RequiredRoles => new[] { "admin" };
+        public string[] RequiredRoles => new[] { OperationClaims.Admin };
     }
 
     public class DeleteDeveloperCommandHandler : IRequestHandler<DeleteDeveloperCommand, DeletedDeveloperDTO>

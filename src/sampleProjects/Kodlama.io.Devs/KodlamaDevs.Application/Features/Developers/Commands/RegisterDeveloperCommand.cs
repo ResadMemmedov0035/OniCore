@@ -14,7 +14,6 @@ namespace KodlamaDevs.Application.Features.Developers.Commands
 {
     public class RegisterDeveloperCommand : UserRegisterDTO, IRequest<AuthorizedDeveloperDTO>
     {
-        //public RegisterDeveloperDTO RegisterDeveloperDTO { get; set; } = new();
         public string GithubAddress { get; set; } = string.Empty;
         [JsonIgnore]
         public string IpAddress { get; set; } = string.Empty;

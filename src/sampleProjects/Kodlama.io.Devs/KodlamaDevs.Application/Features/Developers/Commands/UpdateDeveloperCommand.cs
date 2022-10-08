@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using KodlamaDevs.Application.Constants;
 using KodlamaDevs.Application.Features.Developers.DTOs;
 using KodlamaDevs.Application.Features.Developers.Rules;
 using KodlamaDevs.Application.Services.Repositories;
@@ -17,7 +18,7 @@ namespace KodlamaDevs.Application.Features.Developers.Commands
         public string LastName { get; set; } = string.Empty;
         public string GithubAddress { get; set; } = string.Empty;
 
-        public string[] RequiredRoles => new[] { "user" };
+        public string[] RequiredRoles => new[] { OperationClaims.User };
     }
 
     public class UpdateDeveloperCommandHandler : IRequestHandler<UpdateDeveloperCommand, UpdatedDeveloperDTO>

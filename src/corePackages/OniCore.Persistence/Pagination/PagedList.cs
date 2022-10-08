@@ -17,12 +17,12 @@ namespace OniCore.Persistence.Pagination
             Items = new List<T>();
         }
 
-        internal PagedList(IEnumerable<T> enumerable, int pageIndex, int pageSize)
+        public PagedList(IEnumerable<T> enumerable, int pageIndex, int pageSize)
             : this(enumerable.Skip(pageIndex * pageSize).Take(pageSize).ToList(), pageIndex, pageSize)
         {
         }
 
-        internal PagedList(IQueryable<T> queryable, int pageIndex, int pageSize)
+        public PagedList(IQueryable<T> queryable, int pageIndex, int pageSize)
             : this(queryable.Skip(pageIndex * pageSize).Take(pageSize).ToList(), pageIndex, pageSize)
         {
         }
