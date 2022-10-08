@@ -3,11 +3,6 @@ using KodlamaDevs.Application.Features.ProgrammingLanguages.Commands;
 using KodlamaDevs.Application.Features.ProgrammingLanguages.DTOs;
 using KodlamaDevs.Domain.Entities;
 using OniCore.Persistence.Pagination;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KodlamaDevs.Application.Features.ProgrammingLanguages.Profiles
 {

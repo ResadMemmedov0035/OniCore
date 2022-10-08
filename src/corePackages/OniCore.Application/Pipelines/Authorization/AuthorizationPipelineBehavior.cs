@@ -2,11 +2,6 @@
 using Microsoft.AspNetCore.Http;
 using OniCore.CrossCuttingConcerns.Exceptions.CustomExceptions;
 using OniCore.Security.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OniCore.Application.Pipelines.Authorization
 {

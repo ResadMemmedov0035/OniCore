@@ -4,12 +4,6 @@ using KodlamaDevs.Application.Features.Developers.DTOs;
 using KodlamaDevs.Domain.Entities;
 using OniCore.Persistence.Pagination;
 using OniCore.Security.Entities;
-using OniCore.Security.Tokens;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KodlamaDevs.Application.Features.Developers.Profiles
 {

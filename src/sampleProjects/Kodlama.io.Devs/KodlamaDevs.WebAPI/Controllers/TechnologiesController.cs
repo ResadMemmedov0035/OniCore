@@ -1,7 +1,6 @@
 ﻿using KodlamaDevs.Application.Features.Technologies.Commands;
 using KodlamaDevs.Application.Features.Technologies.DTOs;
 using KodlamaDevs.Application.Features.Technologies.Queries;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OniCore.Persistence.Dynamic;
 using OniCore.Persistence.Pagination;

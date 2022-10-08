@@ -1,10 +1,5 @@
 ﻿using FluentValidation;
 using KodlamaDevs.Application.Features.Developers.Commands;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KodlamaDevs.Application.Features.Developers.Validators
 {

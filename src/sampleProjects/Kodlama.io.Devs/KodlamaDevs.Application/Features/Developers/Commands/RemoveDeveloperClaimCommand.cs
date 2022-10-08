@@ -5,11 +5,6 @@ using KodlamaDevs.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using OniCore.Security.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KodlamaDevs.Application.Features.Developers.Commands
 {
