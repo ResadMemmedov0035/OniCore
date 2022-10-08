@@ -26,17 +26,17 @@ namespace KodlamaDevs.WebAPI.Controllers
             return Ok(updated);
         }
 
-        [HttpDelete("{Id}")]
-        public async Task<IActionResult> Delete([FromRoute] DeleteProgrammingLanguageCommand deleteCommand)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            DeletedProgrammingLanguageDTO deleted = await Mediator.Send(deleteCommand);
+            DeletedProgrammingLanguageDTO deleted = await Mediator.Send(new DeleteProgrammingLanguageCommand { Id = id });
             return Ok(deleted);
         }        
 
-        [HttpGet("{Id}")]
-        public async Task<IActionResult> GetById([FromRoute] GetProgrammingLanguageByIdQuery getByIdQuery)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById([FromRoute] int id)
         {
-            GetProgrammingLanguageByIdDTO language = await Mediator.Send(getByIdQuery);
+            GetProgrammingLanguageByIdDTO language = await Mediator.Send(new GetProgrammingLanguageByIdQuery { Id = id });
             return Ok(language);
         }
 

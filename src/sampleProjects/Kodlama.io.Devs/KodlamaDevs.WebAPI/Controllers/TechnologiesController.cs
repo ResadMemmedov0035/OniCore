@@ -26,17 +26,17 @@ namespace KodlamaDevs.WebAPI.Controllers
             return Ok(updated);
         }
 
-        [HttpDelete("{Id}")]
-        public async Task<IActionResult> Delete([FromRoute] DeleteTechnologyCommand deleteCommand)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            DeletedTechnologyDTO deleted = await Mediator.Send(deleteCommand);
+            DeletedTechnologyDTO deleted = await Mediator.Send(new DeleteTechnologyCommand { Id = id });
             return Ok(deleted);
         }
 
-        [HttpGet("{Id}")]
-        public async Task<IActionResult> GetById([FromRoute] GetTechnologyByIdQuery getByIdQuery)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById([FromRoute] int id)
         {
-            GetTechnologyByIdDTO technology = await Mediator.Send(getByIdQuery);
+            GetTechnologyByIdDTO technology = await Mediator.Send(new GetTechnologyByIdQuery { Id = id });
             return Ok(technology);
         }
 
