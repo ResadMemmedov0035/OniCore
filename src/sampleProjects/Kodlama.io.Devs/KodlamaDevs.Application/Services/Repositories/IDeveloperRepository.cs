@@ -12,5 +12,6 @@ namespace KodlamaDevs.Application.Services.Repositories
     public interface IDeveloperRepository : IRepository<Developer>, IAsyncRepository<Developer>
     {
         Task SetOperationClaimAsync(Developer developer, OperationClaim operationClaim, bool saveChanges = true);
+        Task RemoveOperationClaimAsync(Developer developer, OperationClaim operationClaim, bool saveChanges = true);
     }
 }

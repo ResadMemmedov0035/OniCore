@@ -21,9 +21,16 @@ namespace KodlamaDevs.Application.Features.Developers.Rules
             _developerRepository = developerRepository;
         }
 
-        public async Task ClaimCannotBeDuplicated(int userId, int claimId)
+        public async Task ClaimMustExistsForDeveloper(int devId, int claimId)
         {
-            bool any = await _developerRepository.AnyAsync(x => x.Id == userId && x.OperationClaims.Any(x => x.Id == claimId));
+            bool any = await _developerRepository.AnyAsync(x => x.Id == devId && x.OperationClaims.Any(x => x.Id == claimId));
+            if (!any)
+                throw new BusinessException("The operation claim to remove must exists for this user.");
+        }
+
+        public async Task ClaimCannotBeDuplicatedForDeveloper(int devId, int claimId)
+        {
+            bool any = await _developerRepository.AnyAsync(x => x.Id == devId && x.OperationClaims.Any(x => x.Id == claimId));
             if (any)
                 throw new BusinessException("The operation claim already exists for this user.");
         }

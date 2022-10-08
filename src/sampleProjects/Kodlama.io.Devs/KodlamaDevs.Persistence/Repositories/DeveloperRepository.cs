@@ -20,9 +20,9 @@ namespace KodlamaDevs.Persistence.Repositories
                 await Context.SaveChangesAsync();
         }
 
-        public async Task SetRefreshToken(Developer developer, RefreshToken refreshToken, bool saveChanges = true)
+        public async Task RemoveOperationClaimAsync(Developer developer, OperationClaim operationClaim, bool saveChanges = true)
         {
-            developer.RefreshTokens.Add(refreshToken);
+            developer.OperationClaims.Remove(operationClaim);
             if (saveChanges)
                 await Context.SaveChangesAsync();
         }

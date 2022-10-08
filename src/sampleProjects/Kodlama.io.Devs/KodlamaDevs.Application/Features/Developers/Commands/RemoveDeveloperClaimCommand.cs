@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using KodlamaDevs.Application.Features.Developers.DTOs;
+﻿using KodlamaDevs.Application.Features.Developers.DTOs;
 using KodlamaDevs.Application.Features.Developers.Rules;
 using KodlamaDevs.Application.Services.Repositories;
 using KodlamaDevs.Domain.Entities;
@@ -14,34 +13,34 @@ using System.Threading.Tasks;
 
 namespace KodlamaDevs.Application.Features.Developers.Commands
 {
-    public class AddDeveloperClaimCommand : IRequest<AddedDeveloperClaimDTO>
+    public class RemoveDeveloperClaimCommand : IRequest<RemovedDeveloperClaimDTO>
     {
         public int Id { get; set; }
         public int ClaimId { get; set; }
     }
 
-    public class AddDeveloperClaimCommandHandler : IRequestHandler<AddDeveloperClaimCommand, AddedDeveloperClaimDTO>
+    public class RemoveDeveloperClaimCommandHandler : IRequestHandler<RemoveDeveloperClaimCommand, RemovedDeveloperClaimDTO>
     {
         private readonly IDeveloperRepository _developerRepository;
         private readonly IOperationClaimRepository _claimRepository;
         private readonly DeveloperBusinessRules _businessRules;
 
-        public AddDeveloperClaimCommandHandler(IDeveloperRepository developerRepository, IOperationClaimRepository claimRepository,
-                                               DeveloperBusinessRules businessRules)
+        public RemoveDeveloperClaimCommandHandler(IDeveloperRepository developerRepository, IOperationClaimRepository claimRepository,
+                                                  DeveloperBusinessRules businessRules)
         {
             _developerRepository = developerRepository;
             _claimRepository = claimRepository;
             _businessRules = businessRules;
         }
 
-        public async Task<AddedDeveloperClaimDTO> Handle(AddDeveloperClaimCommand request, CancellationToken cancellationToken)
+        public async Task<RemovedDeveloperClaimDTO> Handle(RemoveDeveloperClaimCommand request, CancellationToken cancellationToken)
         {
-            await _businessRules.ClaimCannotBeDuplicatedForDeveloper(request.Id, request.ClaimId);
+            await _businessRules.ClaimMustExistsForDeveloper(request.Id, request.ClaimId);
 
-            Developer developer = await _developerRepository.GetAsync(x => x.Id == request.Id);
+            Developer developer = await _developerRepository.GetAsync(x => x.Id == request.Id, include: x => x.Include(x => x.OperationClaims));
             OperationClaim claim = await _claimRepository.GetAsync(x => x.Id == request.ClaimId);
 
-            await _developerRepository.SetOperationClaimAsync(developer, claim);
+            await _developerRepository.RemoveOperationClaimAsync(developer, claim);
 
             return new() { ClaimId = claim.Id, ClaimName = claim.Name, DeveloperId = developer.Id };
         }
