@@ -65,6 +65,13 @@ namespace KodlamaDevs.WebAPI.Controllers
             return Ok(claimList);
         }
 
+        [HttpPost("{id}/claims/{claimId}")]
+        public async Task<IActionResult> AddClaim([FromRoute] int id, [FromRoute] int claimId)
+        {
+            AddedDeveloperClaimDTO claimDTO = await Mediator.Send(new AddDeveloperClaimCommand { Id = id, ClaimId = claimId });
+            return Ok(claimDTO);
+        }
+
         private void WriteRefreshTokenToCookie(RefreshToken refreshToken)
         {
             CookieOptions cookieOptions = new() { HttpOnly = true, Expires = DateTime.Now.AddDays(7) };

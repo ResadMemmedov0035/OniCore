@@ -52,7 +52,7 @@ namespace KodlamaDevs.Application.Features.Developers.Commands
             developer.PasswordSalt = hashSalt;
 
             OperationClaim claim = await _operationClaimRepository.GetAsync(x => x.Name == "user");
-            await _developerRepository.SetOperationClaim(developer, claim, saveChanges: false);
+            await _developerRepository.SetOperationClaimAsync(developer, claim, saveChanges: false);
 
             Developer addedDeveloper = await _developerRepository.AddAsync(developer);
 

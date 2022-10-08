@@ -21,6 +21,13 @@ namespace KodlamaDevs.Application.Features.Developers.Rules
             _developerRepository = developerRepository;
         }
 
+        public async Task ClaimCannotBeDuplicated(int userId, int claimId)
+        {
+            bool any = await _developerRepository.AnyAsync(x => x.Id == userId && x.OperationClaims.Any(x => x.Id == claimId));
+            if (any)
+                throw new BusinessException("The operation claim already exists for this user.");
+        }
+
         public void PasswordMustBeCorrect(string password, byte[] passwordHash, byte[] passwordSalt)
         {
             if (!HashHelper.VerifyHash(password, passwordHash, passwordSalt))
