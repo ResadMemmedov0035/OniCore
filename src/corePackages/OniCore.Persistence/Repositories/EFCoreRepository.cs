@@ -22,7 +22,7 @@ namespace OniCore.Persistence.Repositories
         public TEntity Get(Expression<Func<TEntity, bool>> predicate)
         {
             return Source.FirstOrDefault(predicate)
-                ?? throw new NotFoundException("No item exists for this condition.");
+                ?? throw new NotFoundException("Item not found.");
         }
 
         public IPagedList<TEntity> GetList(PageParams pageParams,
@@ -88,7 +88,7 @@ namespace OniCore.Persistence.Repositories
                           ? await Source.FirstOrDefaultAsync(predicate)
                           : await include(Source).FirstOrDefaultAsync(predicate);
 
-            return item ?? throw new NotFoundException("No item exists for this condition.");
+            return item ?? throw new NotFoundException("Item not found.");
         }
 
         public async Task<IPagedList<TEntity>> GetListAsync(PageParams pageParams,

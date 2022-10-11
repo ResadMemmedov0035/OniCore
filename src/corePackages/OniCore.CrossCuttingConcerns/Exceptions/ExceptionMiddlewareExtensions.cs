@@ -2,7 +2,7 @@
 
 namespace OniCore.CrossCuttingConcerns.Exceptions
 {
-    public static class ExceptionExtensions
+    public static class ExceptionMiddlewareExtensions
     {
         public static void ConfigureCustomExceptionMiddleware(this IApplicationBuilder builder)
         {

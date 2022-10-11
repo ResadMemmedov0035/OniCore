@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace OniCore.CrossCuttingConcerns.Exceptions.HttpProblemDetails
 {
-    public class NotFoundProblemDetails : ProblemDetails
+    internal class NotFoundProblemDetails : ProblemDetails
     {
         public NotFoundProblemDetails(string detail)
         {
