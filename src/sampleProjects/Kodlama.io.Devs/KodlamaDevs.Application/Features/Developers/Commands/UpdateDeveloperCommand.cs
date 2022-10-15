@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using KodlamaDevs.Application.Constants;
 using KodlamaDevs.Application.Features.Developers.DTOs;
 using KodlamaDevs.Application.Features.Developers.Rules;
 using KodlamaDevs.Application.Services.Repositories;
+using KodlamaDevs.Domain.Constants;
 using KodlamaDevs.Domain.Entities;
 using MediatR;
 using OniCore.Application.Pipelines.Authorization;

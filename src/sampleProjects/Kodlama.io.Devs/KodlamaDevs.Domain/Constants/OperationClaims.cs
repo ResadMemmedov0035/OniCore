@@ -1,4 +1,4 @@
-﻿namespace KodlamaDevs.Application.Constants
+﻿namespace KodlamaDevs.Domain.Constants
 {
     public static class OperationClaims
     {
