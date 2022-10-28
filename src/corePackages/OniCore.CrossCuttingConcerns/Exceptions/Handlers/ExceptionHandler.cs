@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Microsoft.Extensions.Logging;
 using OniCore.CrossCuttingConcerns.Exceptions.CustomExceptions;
 
 namespace OniCore.CrossCuttingConcerns.Exceptions.Handlers
@@ -7,19 +8,14 @@ namespace OniCore.CrossCuttingConcerns.Exceptions.Handlers
     {
         public Task HandleExceptionAsync(Exception exception)
         {
-            if (exception is BusinessException businessException)
-                return HandleException(businessException);
-
-            else if (exception is ValidationException validationException)
-                return HandleException(validationException);
-
-            else if (exception is AuthorizationException authorizationException)
-                return HandleException(authorizationException);
-
-            else if (exception is NotFoundException notFoundException)
-                return HandleException(notFoundException);
-
-            else return HandleException(exception);
+            return exception switch
+            {
+                BusinessException e => HandleException(e),
+                ValidationException e => HandleException(e),
+                AuthorizationException e => HandleException(e),
+                NotFoundException e => HandleException(e),
+                _ => HandleException(exception)
+            };
         }
 
         protected abstract Task HandleException(BusinessException businessException);

@@ -22,8 +22,8 @@ namespace KodlamaDevs.Application
             services.AddScoped<TechnologyBusinessRules>();
             services.AddScoped<DeveloperBusinessRules>();
 
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AuthorizationPipelineBehavior<,>));
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
             // other pipelines
 
             return services;

@@ -3,22 +3,32 @@ using KodlamaDevs.Persistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 using OniCore.CrossCuttingConcerns.Exceptions;
+using OniCore.CrossCuttingConcerns.Exceptions.Handlers;
 using OniCore.Security;
 using OniCore.Security.Encryption;
 using OniCore.Security.Tokens;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Serilog configuration, for more settings see appsetting.json
+
+var logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(builder.Configuration)
+    .CreateLogger();
+
+builder.Host.UseSerilog(logger);
+
+// Add services to the container
 
 builder.Services.AddPersistenceServices(builder.Configuration);
 builder.Services.AddApplicationServices();
 builder.Services.AddSecurityServices();
 
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddSingleton<HttpExceptionHandler>();
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(setup =>
 {
@@ -62,6 +72,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 
 var app = builder.Build();
 
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -69,8 +80,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// app.UseHttpLogging(); // for more detailed logging
+
 //if (app.Environment.IsProduction())
     app.ConfigureCustomExceptionMiddleware();
+
+app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
 
