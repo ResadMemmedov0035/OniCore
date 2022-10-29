@@ -34,7 +34,7 @@ namespace KodlamaDevs.Application.Features.Developers.Commands
             Developer developer = await _developerRepository.GetAsync(x => x.Id == request.Id);
             OperationClaim claim = await _claimRepository.GetAsync(x => x.Id == request.ClaimId);
 
-            await _developerRepository.SetOperationClaimAsync(developer, claim);
+            await _developerRepository.AddOperationClaimAsync(developer, claim);
 
             return new() { ClaimId = claim.Id, ClaimName = claim.Name, DeveloperId = developer.Id };
         }

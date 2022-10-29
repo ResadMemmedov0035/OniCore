@@ -11,9 +11,9 @@ namespace KodlamaDevs.Application.Features.Developers.Profiles
     {
         public MappingProfile()
         {
-            CreateMap<RegisterDeveloperCommand, Developer>().ReverseMap();
+            CreateMap<RegisterDeveloperCommand.UIModel, Developer>().ReverseMap();
 
-            CreateMap<Developer, AuthorizedDeveloperDTO>();
+            CreateMap<LoginDeveloperCommand.UIModel, Developer>();
 
             CreateMap<Developer, DeletedDeveloperDTO>().ReverseMap();
 

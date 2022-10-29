@@ -13,7 +13,7 @@ namespace KodlamaDevs.Persistence.Repositories
 
         }
 
-        public async Task SetOperationClaimAsync(Developer developer, OperationClaim operationClaim, bool saveChanges = true)
+        public async Task AddOperationClaimAsync(Developer developer, OperationClaim operationClaim, bool saveChanges = true)
         {
             developer.OperationClaims.Add(operationClaim);
             if (saveChanges)

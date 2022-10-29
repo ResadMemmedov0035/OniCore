@@ -7,22 +7,21 @@ namespace KodlamaDevs.Application.Features.Developers.Validators
     {
         public RegisterDeveloperCommandValidator()
         {
-            RuleFor(x => x.FirstName).NotEmpty();
-            RuleFor(x => x.FirstName).MinimumLength(2);
-            RuleFor(x => x.FirstName).MaximumLength(50);
+            RuleFor(x => x.Model.FirstName).NotEmpty();
+            RuleFor(x => x.Model.FirstName).MinimumLength(2);
+            RuleFor(x => x.Model.FirstName).MaximumLength(50);
 
-            RuleFor(x => x.LastName).NotEmpty();
-            RuleFor(x => x.LastName).MinimumLength(2);
-            RuleFor(x => x.LastName).MaximumLength(50);
+            RuleFor(x => x.Model.LastName).NotEmpty();
+            RuleFor(x => x.Model.LastName).MinimumLength(2);
+            RuleFor(x => x.Model.LastName).MaximumLength(50);
 
-            RuleFor(x => x.Email).NotEmpty();
-            RuleFor(x => x.Email).EmailAddress();
+            RuleFor(x => x.Model.Email).NotEmpty();
+            RuleFor(x => x.Model.Email).EmailAddress();
 
-            RuleFor(x => x.Password).NotEmpty();
-            RuleFor(x => x.Password).MinimumLength(8);
+            RuleFor(x => x.Model.Password).NotEmpty();
+            RuleFor(x => x.Model.Password).MinimumLength(8);
 
-            RuleFor(x => x.GithubAddress).NotEmpty();
-
+            RuleFor(x => x.Model.GithubAddress).NotEmpty();
         }
     }
 }

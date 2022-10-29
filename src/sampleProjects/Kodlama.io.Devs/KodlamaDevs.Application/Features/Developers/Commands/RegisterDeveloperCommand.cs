@@ -2,24 +2,28 @@
 using KodlamaDevs.Application.Features.Developers.DTOs;
 using KodlamaDevs.Application.Features.Developers.Rules;
 using KodlamaDevs.Application.Services.Repositories;
+using KodlamaDevs.Domain.Constants;
 using KodlamaDevs.Domain.Entities;
 using MediatR;
 using OniCore.Security.DTOs;
 using OniCore.Security.Entities;
 using OniCore.Security.Hashing;
 using OniCore.Security.Tokens;
-using System.Text.Json.Serialization;
 
 namespace KodlamaDevs.Application.Features.Developers.Commands
 {
-    public class RegisterDeveloperCommand : UserRegisterDTO, IRequest<AuthorizedDeveloperDTO>
+    public class RegisterDeveloperCommand : IRequest<RegisteredDeveloperDTO>
     {
-        public string GithubAddress { get; set; } = string.Empty;
-        [JsonIgnore]
+        public UIModel Model { get; set; } = new();
         public string IpAddress { get; set; } = string.Empty;
+
+        public class UIModel : UserRegisterDTO
+        {
+            public string GithubAddress { get; set; } = string.Empty;
+        }
     }
 
-    public class RegisterDeveloperCommandHandler : IRequestHandler<RegisterDeveloperCommand, AuthorizedDeveloperDTO>
+    public class RegisterDeveloperCommandHandler : IRequestHandler<RegisterDeveloperCommand, RegisteredDeveloperDTO>
     {
         private readonly IDeveloperRepository _developerRepository;
         private readonly DeveloperBusinessRules _businessRules;
@@ -40,32 +44,36 @@ namespace KodlamaDevs.Application.Features.Developers.Commands
             _mapper = mapper;
         }
 
-        public async Task<AuthorizedDeveloperDTO> Handle(RegisterDeveloperCommand request, CancellationToken cancellationToken)
+        public async Task<RegisteredDeveloperDTO> Handle(RegisterDeveloperCommand request, CancellationToken cancellationToken)
         {
-            await _businessRules.EmailCannotBeDuplicated(request.Email);
-            await _businessRules.GithubAddressCannotBeDuplicated(request.GithubAddress);
+            await _businessRules.EmailCannotBeDuplicated(request.Model.Email);
+            await _businessRules.GithubAddressCannotBeDuplicated(request.Model.GithubAddress);
 
-            HashHelper.CreateHash(request.Password, out byte[] hash, out byte[] hashSalt);
+            #region Create Developer
 
-            Developer developer = _mapper.Map<Developer>(request);
+            HashHelper.CreateHash(request.Model.Password, out byte[] hash, out byte[] hashSalt);
+
+            Developer developer = _mapper.Map<Developer>(request.Model);
             developer.PasswordHash = hash;
             developer.PasswordSalt = hashSalt;
 
-            OperationClaim claim = await _operationClaimRepository.GetAsync(x => x.Name == "user");
-            await _developerRepository.SetOperationClaimAsync(developer, claim, saveChanges: false);
+            OperationClaim claim = await _operationClaimRepository.GetAsync(x => x.Name == OperationClaims.User);
+            developer.OperationClaims.Add(claim);
 
-            Developer addedDeveloper = await _developerRepository.AddAsync(developer);
+            Developer createdDeveloper = await _developerRepository.AddAsync(developer);
 
-            AccessToken accessToken = _tokenService.CreateToken(addedDeveloper);
+            #endregion
+
+            AccessToken accessToken = _tokenService.CreateToken(createdDeveloper);
             RefreshToken refreshToken = _tokenService.CreateRefreshToken(developer, request.IpAddress);
-            RefreshToken addedRefreshToken = await _refreshTokenRepository.AddAsync(refreshToken);
+            RefreshToken createdRefreshToken = await _refreshTokenRepository.AddAsync(refreshToken);
 
-            AuthorizedDeveloperDTO authorizedDev = new()
+            return new RegisteredDeveloperDTO
             {
+                Id = createdDeveloper.Id,
                 AccessToken = accessToken,
-                RefreshToken = addedRefreshToken
+                RefreshToken = createdRefreshToken
             };
-            return _mapper.Map(addedDeveloper, authorizedDev);
         }
     }
 }

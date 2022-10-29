@@ -27,10 +27,12 @@ namespace KodlamaDevs.Application.Features.Developers.Rules
                 throw new BusinessException("The operation claim already exists for this user.");
         }
 
-        public void PasswordMustBeCorrect(string password, byte[] passwordHash, byte[] passwordSalt)
+        public Task PasswordMustBeCorrect(string password, byte[] passwordHash, byte[] passwordSalt)
         {
             if (!HashHelper.VerifyHash(password, passwordHash, passwordSalt))
                 throw new AuthorizationException("The email or password is wrong.");
+
+            return Task.CompletedTask;
         }
 
         public async Task DeveloperMustBeExists(string email)

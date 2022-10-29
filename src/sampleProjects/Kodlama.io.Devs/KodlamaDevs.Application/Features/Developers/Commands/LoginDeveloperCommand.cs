@@ -6,16 +6,23 @@ using KodlamaDevs.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using OniCore.Security.DTOs;
+using OniCore.Security.Entities;
 using OniCore.Security.Tokens;
 
 namespace KodlamaDevs.Application.Features.Developers.Commands
 {
-    public class LoginDeveloperCommand : UserLoginDTO, IRequest<AuthorizedDeveloperDTO>
+    public class LoginDeveloperCommand : IRequest<LoggedDeveloperDTO>
     {
+        public UIModel Model { get; set; } = new();
+        public string IpAddress { get; set; } = string.Empty;
 
+        public class UIModel : UserLoginDTO
+        {
+
+        }
     }
 
-    public class LoginDeveloperCommandHandler : IRequestHandler<LoginDeveloperCommand, AuthorizedDeveloperDTO>
+    public class LoginDeveloperCommandHandler : IRequestHandler<LoginDeveloperCommand, LoggedDeveloperDTO>
     {
         private readonly IDeveloperRepository _developerRepository;
         private readonly ITokenService _tokenService;
@@ -31,23 +38,30 @@ namespace KodlamaDevs.Application.Features.Developers.Commands
             _mapper = mapper;
         }
 
-        public async Task<AuthorizedDeveloperDTO> Handle(LoginDeveloperCommand request, CancellationToken cancellationToken)
+        public async Task<LoggedDeveloperDTO> Handle(LoginDeveloperCommand request, CancellationToken cancellationToken)
         {
-            await _businessRules.DeveloperMustBeExists(request.Email);
+            await _businessRules.DeveloperMustBeExists(request.Model.Email);
 
-            Developer developer = await _developerRepository.GetAsync(x => x.Email == request.Email, include: x => x.Include(x => x.OperationClaims));
+            Developer developer = await _developerRepository.GetAsync(x => x.Email == request.Model.Email, include: x => x.Include(x => x.OperationClaims));
 
-            _businessRules.PasswordMustBeCorrect(request.Password, developer.PasswordHash, developer.PasswordSalt);
+            await _businessRules.PasswordMustBeCorrect(request.Model.Password, developer.PasswordHash, developer.PasswordSalt);
 
             AccessToken accessToken = _tokenService.CreateToken(developer);
 
-            AuthorizedDeveloperDTO authorizedDev = new()
-            {
-                AccessToken = accessToken,
-                RefreshToken = developer.RefreshTokens.LastOrDefault() ?? new()
-            };
+            RefreshToken? refreshToken = developer.RefreshTokens.LastOrDefault();
 
-            return _mapper.Map(developer, authorizedDev);
+            refreshToken = refreshToken != null && refreshToken.Expiration >= DateTime.UtcNow
+                ? _tokenService.CreateRefreshToken(developer, request.IpAddress)
+                : refreshToken;
+
+            return new LoggedDeveloperDTO
+            {
+                RefreshToken = refreshToken!,
+                Model = new() 
+                {
+                    AccessToken = accessToken,
+                }
+            };
         }
     }
 }

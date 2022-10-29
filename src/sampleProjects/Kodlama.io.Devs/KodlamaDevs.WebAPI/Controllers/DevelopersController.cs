@@ -12,21 +12,28 @@ namespace KodlamaDevs.WebAPI.Controllers
     public class DevelopersController : BaseController
     {
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterDeveloperCommand registerCommand)
+        public async Task<IActionResult> Register([FromBody] RegisterDeveloperCommand.UIModel model)
         {
-            registerCommand.IpAddress = GetIpAddress();
-            AuthorizedDeveloperDTO authorizedDev = await Mediator.Send(registerCommand);
+            RegisterDeveloperCommand registerCommand = new() { Model = model, IpAddress = GetIpAddress() };
 
-            WriteRefreshTokenToCookie(authorizedDev.RefreshToken);
+            RegisteredDeveloperDTO registeredDev = await Mediator.Send(registerCommand);
 
-            return CreatedAtAction(nameof(GetById), new { authorizedDev.Id }, authorizedDev);
+            WriteRefreshTokenToCookie(registeredDev.RefreshToken);
+
+            return CreatedAtAction(nameof(GetById), new { registeredDev.Id }, registeredDev.AccessToken);
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginDeveloperCommand loginCommand)
+        public async Task<IActionResult> Login([FromBody] LoginDeveloperCommand.UIModel model)
         {
-            AuthorizedDeveloperDTO authorizedDev = await Mediator.Send(loginCommand);
-            return Ok(authorizedDev);
+            LoginDeveloperCommand loginCommand = new() { Model = model, IpAddress = GetIpAddress() };
+
+            LoggedDeveloperDTO loggedDev = await Mediator.Send(loginCommand);
+
+            if (loggedDev.RefreshToken != null)
+                WriteRefreshTokenToCookie(loggedDev.RefreshToken);
+
+            return Ok(loggedDev.Model);
         }
 
         [HttpPut("{id}")]
