@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace KodlamaDevs.WebAPI.Controllers
 {
-    public class BaseController : ControllerBase
+    public class ApiControllerBase : ControllerBase
     {
         private IMediator? _mediator;
 

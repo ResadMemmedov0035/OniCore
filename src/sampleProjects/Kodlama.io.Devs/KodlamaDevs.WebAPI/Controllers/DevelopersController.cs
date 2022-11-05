@@ -9,7 +9,7 @@ namespace KodlamaDevs.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DevelopersController : BaseController
+    public class DevelopersController : ApiControllerBase
     {
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDeveloperCommand.UIModel model)

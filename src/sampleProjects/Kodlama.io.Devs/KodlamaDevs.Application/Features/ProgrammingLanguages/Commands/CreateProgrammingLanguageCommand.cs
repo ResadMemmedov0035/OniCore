@@ -1,38 +1,31 @@
-﻿using AutoMapper;
-using KodlamaDevs.Application.Features.ProgrammingLanguages.DTOs;
-using KodlamaDevs.Application.Features.ProgrammingLanguages.Rules;
+﻿using KodlamaDevs.Application.Features.ProgrammingLanguages.Rules;
 using KodlamaDevs.Application.Services.Repositories;
 using KodlamaDevs.Domain.Entities;
 using MediatR;
 
-namespace KodlamaDevs.Application.Features.ProgrammingLanguages.Commands
+namespace KodlamaDevs.Application.Features.ProgrammingLanguages.Commands;
+
+public record CreateProgrammingLanguageCommand(string Name) : IRequest<CreatedProgrammingLanguageDTO>;
+
+public record CreatedProgrammingLanguageDTO(int Id, string Name);
+
+public class CreateProgrammingLanguageCommandHandler : IRequestHandler<CreateProgrammingLanguageCommand, CreatedProgrammingLanguageDTO>
 {
-    public class CreateProgrammingLanguageCommand : IRequest<CreatedProgrammingLanguageDTO>
+    private readonly IProgrammingLanguageRepository _repository;
+    private readonly ProgrammingLanguageBusinessRules _rules;
+
+    public CreateProgrammingLanguageCommandHandler(IProgrammingLanguageRepository repository, ProgrammingLanguageBusinessRules rules)
     {
-        public string Name { get; set; } = string.Empty;
+        _repository = repository;
+        _rules = rules;
     }
 
-    public class CreateProgrammingLanguageCommandHandler : IRequestHandler<CreateProgrammingLanguageCommand, CreatedProgrammingLanguageDTO>
+    public async Task<CreatedProgrammingLanguageDTO> Handle(CreateProgrammingLanguageCommand request, CancellationToken cancellationToken)
     {
-        private readonly IProgrammingLanguageRepository _repository;
-        private readonly IMapper _mapper;
-        private readonly ProgrammingLanguageBusinessRules _businessRules;
+        await _rules.NameCannotBeDuplicated(request.Name);
 
-        public CreateProgrammingLanguageCommandHandler(IProgrammingLanguageRepository repository, IMapper mapper, 
-            ProgrammingLanguageBusinessRules businessRules)
-        {
-            _repository = repository;
-            _mapper = mapper;
-            _businessRules = businessRules;
-        }
-
-        public async Task<CreatedProgrammingLanguageDTO> Handle(CreateProgrammingLanguageCommand request, CancellationToken cancellationToken)
-        {
-            await _businessRules.NameCannotBeDuplicated(request.Name);
-
-            ProgrammingLanguage language = _mapper.Map<ProgrammingLanguage>(request);
-            ProgrammingLanguage addedLanguage = await _repository.AddAsync(language);
-            return _mapper.Map<CreatedProgrammingLanguageDTO>(addedLanguage);
-        }
+        ProgrammingLanguage pl = new() { Name = request.Name };
+        ProgrammingLanguage createdPl = await _repository.AddAsync(pl);
+        return new CreatedProgrammingLanguageDTO(createdPl.Id, createdPl.Name);
     }
 }
