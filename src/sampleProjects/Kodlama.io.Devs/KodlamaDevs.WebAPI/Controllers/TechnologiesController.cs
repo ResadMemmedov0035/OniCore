@@ -9,7 +9,7 @@ namespace KodlamaDevs.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TechnologiesController : BaseController
+    public class TechnologiesController : ApiControllerBase
     {
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateTechnologyCommand createCommand)

@@ -7,9 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Developers\Constants\" />
-    <Folder Include="Features\ProgrammingLanguages\Constants\" />
-    <Folder Include="Features\Technologies\Constants\" />
     <Folder Include="Features\Technologies\Validators\" />
   </ItemGroup>
 
