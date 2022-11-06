@@ -6,10 +6,9 @@ using MediatR;
 
 namespace KodlamaDevs.Application.Features.ProgrammingLanguages.Commands
 {
-    public class DeleteProgrammingLanguageCommand : IRequest<DeletedProgrammingLanguageDTO>
-    {
-        public int Id { get; set; }
-    }
+    public record DeleteProgrammingLanguageCommand(int Id) : IRequest<DeletedProgrammingLanguageDTO>;
+
+    public record DeletedProgrammingLanguageDTO(int Id);
 
     public class DeleteProgrammingLanguageCommandHandler : IRequestHandler<DeleteProgrammingLanguageCommand, DeletedProgrammingLanguageDTO>
     {
@@ -24,9 +23,9 @@ namespace KodlamaDevs.Application.Features.ProgrammingLanguages.Commands
 
         public async Task<DeletedProgrammingLanguageDTO> Handle(DeleteProgrammingLanguageCommand request, CancellationToken cancellationToken)
         {
-            ProgrammingLanguage language = _mapper.Map<ProgrammingLanguage>(request);
-            ProgrammingLanguage deletedLanguage = await _repository.DeleteAsync(language);
-            return _mapper.Map<DeletedProgrammingLanguageDTO>(deletedLanguage);
+            ProgrammingLanguage pl = new() { Id = request.Id };
+            _ = await _repository.DeleteAsync(pl);
+            return new DeletedProgrammingLanguageDTO(pl.Id);
         }
     }
 }
