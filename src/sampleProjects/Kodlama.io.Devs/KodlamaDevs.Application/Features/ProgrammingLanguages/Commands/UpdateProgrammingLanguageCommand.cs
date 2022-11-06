@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using KodlamaDevs.Application.Features.ProgrammingLanguages.DTOs;
-using KodlamaDevs.Application.Features.ProgrammingLanguages.Rules;
+﻿using KodlamaDevs.Application.Features.ProgrammingLanguages.Rules;
 using KodlamaDevs.Application.Services.Repositories;
 using KodlamaDevs.Domain.Entities;
 using MediatR;
@@ -24,6 +22,7 @@ namespace KodlamaDevs.Application.Features.ProgrammingLanguages.Commands
 
         public async Task<UpdatedProgrammingLanguageDTO> Handle(UpdateProgrammingLanguageCommand request, CancellationToken cancellationToken)
         {
+            await _rules.ProgrammingLanguageShouldExists(request.Id);
             await _rules.NameCannotBeDuplicated(request.Name);
 
             ProgrammingLanguage pl = new() { Id = request.Id, Name = request.Name };

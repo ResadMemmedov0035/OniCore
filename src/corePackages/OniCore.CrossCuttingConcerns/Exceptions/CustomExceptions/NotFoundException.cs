@@ -4,6 +4,6 @@
     {
         public NotFoundException(string message) : base(message) { }
 
-        public NotFoundException(string objectName, string key) : base($"The entity \"{objectName}\" ({key}) was not found.") { }
+        public NotFoundException(string objectName, object key) : base($"The entity \"{objectName}\" ({key}) was not found.") { }
     }
 }
