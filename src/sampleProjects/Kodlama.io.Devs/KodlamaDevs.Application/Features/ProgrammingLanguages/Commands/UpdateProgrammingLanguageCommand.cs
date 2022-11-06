@@ -7,33 +7,28 @@ using MediatR;
 
 namespace KodlamaDevs.Application.Features.ProgrammingLanguages.Commands
 {
-    public class UpdateProgrammingLanguageCommand : IRequest<UpdatedProgrammingLanguageDTO>
-    {
-        public int Id { get; set; }
-        public string Name { get; set; } = string.Empty;
-    }
+    public record UpdateProgrammingLanguageCommand(int Id, string Name) : IRequest<UpdatedProgrammingLanguageDTO>;
+
+    public record UpdatedProgrammingLanguageDTO(int Id, string Name);
 
     public class UpdateProgrammingLanguageCommandHandler : IRequestHandler<UpdateProgrammingLanguageCommand, UpdatedProgrammingLanguageDTO>
     {
         private readonly IProgrammingLanguageRepository _repository;
-        private readonly IMapper _mapper;
-        private readonly ProgrammingLanguageBusinessRules _businessRules;
+        private readonly ProgrammingLanguageBusinessRules _rules;
 
-        public UpdateProgrammingLanguageCommandHandler(IProgrammingLanguageRepository repository, IMapper mapper,
-            ProgrammingLanguageBusinessRules businessRules)
+        public UpdateProgrammingLanguageCommandHandler(IProgrammingLanguageRepository repository, ProgrammingLanguageBusinessRules rules)
         {
             _repository = repository;
-            _mapper = mapper;
-            _businessRules = businessRules;
+            _rules = rules;
         }
 
         public async Task<UpdatedProgrammingLanguageDTO> Handle(UpdateProgrammingLanguageCommand request, CancellationToken cancellationToken)
         {
-            await _businessRules.NameCannotBeDuplicated(request.Name);
+            await _rules.NameCannotBeDuplicated(request.Name);
 
-            ProgrammingLanguage language = _mapper.Map<ProgrammingLanguage>(request);
-            ProgrammingLanguage updatedLanguage = await _repository.UpdateAsync(language);
-            return _mapper.Map<UpdatedProgrammingLanguageDTO>(updatedLanguage);
+            ProgrammingLanguage pl = new() { Id = request.Id, Name = request.Name };
+            ProgrammingLanguage updatedPl = await _repository.UpdateAsync(pl);
+            return new UpdatedProgrammingLanguageDTO(updatedPl.Id, updatedPl.Name);
         }
     }
 }
