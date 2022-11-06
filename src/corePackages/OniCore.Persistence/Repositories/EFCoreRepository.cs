@@ -7,6 +7,9 @@ using System.Linq.Expressions;
 
 namespace OniCore.Persistence.Repositories
 {
+    // TODO: Refactor some features; Get(maybe), GetList Pagination,
+    // SaveChanges(maybe), Naming conventions, IQuery(why is this necessary anyway)
+
     public class EFCoreRepository<TEntity> : IRepository<TEntity>, IAsyncRepository<TEntity>, IQuery<TEntity>
         where TEntity : Entity, new()
     {
@@ -22,7 +25,7 @@ namespace OniCore.Persistence.Repositories
         public TEntity Get(Expression<Func<TEntity, bool>> predicate)
         {
             return Source.FirstOrDefault(predicate)
-                ?? throw new NotFoundException("Item not found.");
+                ?? throw new NotFoundException();
         }
 
         public IPagedList<TEntity> GetList(PageParams pageParams,
@@ -88,7 +91,7 @@ namespace OniCore.Persistence.Repositories
                           ? await Source.FirstOrDefaultAsync(predicate)
                           : await include(Source).FirstOrDefaultAsync(predicate);
 
-            return item ?? throw new NotFoundException("Item not found.");
+            return item ?? throw new NotFoundException();
         }
 
         public async Task<IPagedList<TEntity>> GetListAsync(PageParams pageParams,

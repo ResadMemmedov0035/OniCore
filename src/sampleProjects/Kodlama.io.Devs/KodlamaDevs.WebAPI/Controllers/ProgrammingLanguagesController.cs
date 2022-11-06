@@ -35,7 +35,7 @@ namespace KodlamaDevs.WebAPI.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
-            GetProgrammingLanguageByIdDTO language = await Mediator.Send(new GetProgrammingLanguageByIdQuery { Id = id });
+            GetProgrammingLanguageByIdDTO language = await Mediator.Send(new GetProgrammingLanguageByIdQuery(id));
             return Ok(language);
         }
 
