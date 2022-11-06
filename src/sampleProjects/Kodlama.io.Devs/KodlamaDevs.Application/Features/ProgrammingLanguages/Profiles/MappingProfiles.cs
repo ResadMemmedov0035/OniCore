@@ -10,15 +10,6 @@ namespace KodlamaDevs.Application.Features.ProgrammingLanguages.Profiles
     {
         public MappingProfiles()
         {
-            CreateMap<ProgrammingLanguage, CreateProgrammingLanguageCommand>().ReverseMap();
-            CreateMap<ProgrammingLanguage, CreatedProgrammingLanguageDTO>().ReverseMap();
-
-            CreateMap<ProgrammingLanguage, UpdateProgrammingLanguageCommand>().ReverseMap();
-            CreateMap<ProgrammingLanguage, UpdatedProgrammingLanguageDTO>().ReverseMap();
-
-            CreateMap<ProgrammingLanguage, DeleteProgrammingLanguageCommand>().ReverseMap();
-            CreateMap<ProgrammingLanguage, DeletedProgrammingLanguageDTO>().ReverseMap();
-
             CreateMap<IPagedList<ProgrammingLanguage>, GetProgrammingLanguageListDTO>().ReverseMap();
             CreateMap<ProgrammingLanguage, GetProgrammingLanguageListItemDTO>().ReverseMap();
 

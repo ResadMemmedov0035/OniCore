@@ -7,11 +7,11 @@ namespace KodlamaDevs.Application.Features.Developers.Validators
     {
         public LoginDeveloperCommandValidator()
         {
-            RuleFor(x => x.Email).NotEmpty();
-            RuleFor(x => x.Email).EmailAddress();
+            RuleFor(x => x.Model.Email).NotEmpty();
+            RuleFor(x => x.Model.Email).EmailAddress();
 
-            RuleFor(x => x.Password).NotEmpty();
-            RuleFor(x => x.Password).MinimumLength(8);
+            RuleFor(x => x.Model.Password).NotEmpty();
+            RuleFor(x => x.Model.Password).MinimumLength(8);
         }
     }
 }

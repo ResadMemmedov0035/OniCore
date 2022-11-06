@@ -11,30 +11,30 @@ namespace KodlamaDevs.WebAPI.Controllers
     [ApiController]
     public class DevelopersController : ApiControllerBase
     {
-        [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterDeveloperCommand.UIModel model)
-        {
-            RegisterDeveloperCommand registerCommand = new() { Model = model, IpAddress = GetIpAddress() };
+        //[HttpPost("register")]
+        //public async Task<IActionResult> Register([FromBody] RegisterDeveloperCommand.UIModel model)
+        //{
+        //    RegisterDeveloperCommand registerCommand = new() { Model = model, IpAddress = GetIpAddress() };
 
-            RegisteredDeveloperDTO registeredDev = await Mediator.Send(registerCommand);
+        //    RegisteredDeveloperDTO registeredDev = await Mediator.Send(registerCommand);
 
-            WriteRefreshTokenToCookie(registeredDev.RefreshToken);
+        //    WriteRefreshTokenToCookie(registeredDev.RefreshToken);
 
-            return CreatedAtAction(nameof(GetById), new { registeredDev.Id }, registeredDev.AccessToken);
-        }
+        //    return CreatedAtAction(nameof(GetById), new { registeredDev.Id }, registeredDev.AccessToken);
+        //}
 
-        [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginDeveloperCommand.UIModel model)
-        {
-            LoginDeveloperCommand loginCommand = new() { Model = model, IpAddress = GetIpAddress() };
+        //[HttpPost("login")]
+        //public async Task<IActionResult> Login([FromBody] LoginDeveloperCommand.UIModel model)
+        //{
+        //    LoginDeveloperCommand loginCommand = new() { Model = model, IpAddress = GetIpAddress() };
 
-            LoggedDeveloperDTO loggedDev = await Mediator.Send(loginCommand);
+        //    LoggedDeveloperDTO loggedDev = await Mediator.Send(loginCommand);
 
-            if (loggedDev.RefreshToken != null)
-                WriteRefreshTokenToCookie(loggedDev.RefreshToken);
+        //    if (loggedDev.RefreshToken != null)
+        //        WriteRefreshTokenToCookie(loggedDev.RefreshToken);
 
-            return Ok(loggedDev.Model);
-        }
+        //    return Ok(loggedDev.Model);
+        //}
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateDeveloperCommand updateCommand)

@@ -28,7 +28,7 @@ namespace KodlamaDevs.WebAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            DeletedProgrammingLanguageDTO deleted = await Mediator.Send(new DeleteProgrammingLanguageCommand { Id = id });
+            DeletedProgrammingLanguageDTO deleted = await Mediator.Send(new DeleteProgrammingLanguageCommand(id));
             return Ok(deleted);
         }        
 
