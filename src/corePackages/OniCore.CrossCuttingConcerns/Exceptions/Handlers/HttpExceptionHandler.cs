@@ -12,7 +12,7 @@ namespace OniCore.CrossCuttingConcerns.Exceptions.Handlers
         private HttpResponse? _response;
         private readonly ILogger<HttpExceptionHandler> _logger;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly string _logMessageTemplate = "Exception: {ExceptionMessage} | User: {@User}";
+        private readonly string _logMessageTemplate = "Message: {Message} | User: {@User}";
 
         public HttpResponse Response
         { 
@@ -28,7 +28,7 @@ namespace OniCore.CrossCuttingConcerns.Exceptions.Handlers
 
         protected override Task HandleException(BusinessException businessException)
         {
-            _logger.LogInformation(businessException, _logMessageTemplate, businessException.Message, GetUser());
+            _logger.LogInformation(_logMessageTemplate, businessException.Message, GetUser());
 
             Response.StatusCode = StatusCodes.Status400BadRequest;
             string details = new BusinessProblemDetails(businessException.Message).AsJson();
@@ -37,7 +37,7 @@ namespace OniCore.CrossCuttingConcerns.Exceptions.Handlers
 
         protected override Task HandleException(ValidationException validationException)
         {
-            _logger.LogInformation(validationException, _logMessageTemplate, validationException.Message, GetUser());
+            _logger.LogInformation(_logMessageTemplate, validationException.Message, GetUser());
 
             Response.StatusCode = StatusCodes.Status400BadRequest;
             string details = new ValidationProblemDetails(validationException.Errors).AsJson();
@@ -55,7 +55,7 @@ namespace OniCore.CrossCuttingConcerns.Exceptions.Handlers
 
         protected override Task HandleException(NotFoundException notFoundException)
         {
-            _logger.LogInformation(notFoundException, _logMessageTemplate, notFoundException.Message, GetUser());
+            _logger.LogInformation(_logMessageTemplate, notFoundException.Message, GetUser());
 
             Response.StatusCode = StatusCodes.Status404NotFound;
             string details = new NotFoundProblemDetails(notFoundException.Message).AsJson();
@@ -75,8 +75,8 @@ namespace OniCore.CrossCuttingConcerns.Exceptions.Handlers
         {
             return new
             {
-                Name = _httpContextAccessor.HttpContext.User.Identity?.Name ?? "?",
-                Email = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Email)?.Value ?? "?"
+                Name = _httpContextAccessor.HttpContext.User.Identity?.Name ?? "Unknown",
+                Email = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Email)?.Value ?? "Unknown"
             };
         }
     }
