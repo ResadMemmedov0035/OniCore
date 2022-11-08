@@ -40,7 +40,7 @@ namespace OniCore.Persistence.Repositories
             if (orderBy != null) query = orderBy(query);
             if (include != null) query = include(query);
 
-            return query.ToPagedList(pageParams.Index, pageParams.Size);
+            return query.ToPagedList(pageParams);
         }
 
         public IPagedList<TEntity> GetList(PageParams pageParams,
@@ -54,7 +54,7 @@ namespace OniCore.Persistence.Repositories
             if (dynamicParams.Sorts != null) query = query.Sort(dynamicParams.Sorts);
             if (include != null) query = include(query);
 
-            return query.ToPagedList(pageParams.Index, pageParams.Size);
+            return query.ToPagedList(pageParams);
         }
 
         public TEntity Add(TEntity entity)
@@ -107,7 +107,7 @@ namespace OniCore.Persistence.Repositories
             if (orderBy != null) query = orderBy(query);
             if (include != null) query = include(query);
 
-            return await query.ToPagedListAsync(pageParams.Index, pageParams.Size, cancellationToken).ConfigureAwait(false);
+            return await Task.FromResult(query.ToPagedList(pageParams)).ConfigureAwait(false);
         }
 
         public async Task<IPagedList<TEntity>> GetListAsync(PageParams pageParams,
@@ -122,7 +122,7 @@ namespace OniCore.Persistence.Repositories
             if (dynamicParams.Sorts != null) query = query.Sort(dynamicParams.Sorts);
             if (include != null) query = include(query);
 
-            return await query.ToPagedListAsync(pageParams.Index, pageParams.Size, cancellationToken).ConfigureAwait(false);
+            return await Task.FromResult(query.ToPagedList(pageParams)).ConfigureAwait(false);
         }
 
         public async Task<TEntity> AddAsync(TEntity entity)

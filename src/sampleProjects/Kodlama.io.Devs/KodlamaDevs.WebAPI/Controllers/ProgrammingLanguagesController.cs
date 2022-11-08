@@ -1,5 +1,4 @@
 ﻿using KodlamaDevs.Application.Features.ProgrammingLanguages.Commands;
-using KodlamaDevs.Application.Features.ProgrammingLanguages.DTOs;
 using KodlamaDevs.Application.Features.ProgrammingLanguages.Queries;
 using Microsoft.AspNetCore.Mvc;
 using OniCore.Persistence.Pagination;
@@ -42,8 +41,7 @@ namespace KodlamaDevs.WebAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> GetList([FromQuery] PageParams pageParams)
         {
-            GetProgrammingLanguageListQuery getListQuery = new() { PageParams = pageParams };
-            GetProgrammingLanguageListDTO list = await Mediator.Send(getListQuery);
+            GetProgrammingLanguageListDTO list = await Mediator.Send(new GetProgrammingLanguageListQuery(pageParams));
             return Ok(list);
         }
     }

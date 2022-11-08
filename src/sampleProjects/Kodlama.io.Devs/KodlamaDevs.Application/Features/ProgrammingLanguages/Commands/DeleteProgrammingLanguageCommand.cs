@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using KodlamaDevs.Application.Features.ProgrammingLanguages.DTOs;
-using KodlamaDevs.Application.Features.ProgrammingLanguages.Rules;
+﻿using KodlamaDevs.Application.Features.ProgrammingLanguages.Rules;
 using KodlamaDevs.Application.Services.Repositories;
 using KodlamaDevs.Domain.Entities;
 using MediatR;

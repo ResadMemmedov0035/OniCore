@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using KodlamaDevs.Application.Features.ProgrammingLanguages.Commands;
-using KodlamaDevs.Application.Features.ProgrammingLanguages.DTOs;
+using KodlamaDevs.Application.Features.ProgrammingLanguages.Queries;
 using KodlamaDevs.Domain.Entities;
 using OniCore.Persistence.Pagination;
 

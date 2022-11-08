@@ -2,16 +2,24 @@
 {
     public static class PagedListExtensions
     {
-        public static IPagedList<T> ToPagedList<T>(this IQueryable<T> source, int pageIndex, int pageSize)
+        public static IPagedList<T> ToPagedList<T>(this IQueryable<T> query, int pageIndex, int pageSize)
+        {
+            return new PagedList<T>(query, pageIndex, pageSize);
+        }
+
+        public static IPagedList<T> ToPagedList<T>(this IQueryable<T> query, PageParams @params)
+        {
+            return new PagedList<T>(query, @params.Index, @params.Size);
+        }
+
+        public static IPagedList<T> ToPagedList<T>(this IEnumerable<T> source, int pageIndex, int pageSize)
         {
             return new PagedList<T>(source, pageIndex, pageSize);
         }
 
-        public static async Task<IPagedList<T>> ToPagedListAsync<T>(this IQueryable<T> source, int pageIndex, int pageSize, CancellationToken cancellationToken = default)
+        public static IPagedList<T> ToPagedList<T>(this IEnumerable<T> source, PageParams @params)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-            IPagedList<T> pagedList = new PagedList<T>(source, pageIndex, pageSize);
-            return await Task.FromResult(pagedList).ConfigureAwait(false);
+            return new PagedList<T>(source, @params.Index, @params.Size);
         }
     }
 }
