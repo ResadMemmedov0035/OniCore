@@ -7,7 +7,9 @@ namespace OniCore.Persistence.Repositories
 {
     public interface IRepository<TEntity> where TEntity : Entity, new()
     {
-        TEntity Get(Expression<Func<TEntity, bool>> predicate);
+        TEntity Get(Expression<Func<TEntity, bool>> predicate,
+            Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
+            bool enableTracking = false);
 
         IPagedList<TEntity> GetList(PageParams pageParams,
             Expression<Func<TEntity, bool>>? predicate = null,
