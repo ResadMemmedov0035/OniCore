@@ -1,5 +1,5 @@
 ﻿using KodlamaDevs.Application.Services.Repositories;
-using OniCore.CrossCuttingConcerns.Exceptions.CustomExceptions;
+using OniCore.CrossCuttingConcerns.ExceptionHandling.Exceptions;
 using OniCore.Security.Hashing;
 
 namespace KodlamaDevs.Application.Features.Developers.Rules

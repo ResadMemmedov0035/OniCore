@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Http;
-using OniCore.CrossCuttingConcerns.Exceptions.CustomExceptions;
+using OniCore.CrossCuttingConcerns.ExceptionHandling.Exceptions;
 using OniCore.Security.Extensions;
 
 namespace OniCore.Application.Pipelines.Authorization

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
-using OniCore.CrossCuttingConcerns.Exceptions.CustomExceptions;
+using OniCore.CrossCuttingConcerns.ExceptionHandling.Exceptions;
 using OniCore.Persistence.Dynamic;
 using OniCore.Persistence.Pagination;
 using System.Linq.Expressions;

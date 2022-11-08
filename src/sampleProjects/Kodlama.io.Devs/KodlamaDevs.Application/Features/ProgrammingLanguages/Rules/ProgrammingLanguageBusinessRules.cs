@@ -1,6 +1,6 @@
 ﻿using KodlamaDevs.Application.Services.Repositories;
 using KodlamaDevs.Domain.Entities;
-using OniCore.CrossCuttingConcerns.Exceptions.CustomExceptions;
+using OniCore.CrossCuttingConcerns.ExceptionHandling.Exceptions;
 
 namespace KodlamaDevs.Application.Features.ProgrammingLanguages.Rules
 {
