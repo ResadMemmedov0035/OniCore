@@ -22,7 +22,7 @@ namespace OniCore.Persistence.Repositories
             Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>>? include = null,
             bool enableTracking = false);
 
-        TEntity Add(TEntity entity);
+        TEntity Create(TEntity entity);
         TEntity Update(TEntity entity);
         TEntity Delete(TEntity entity);
 

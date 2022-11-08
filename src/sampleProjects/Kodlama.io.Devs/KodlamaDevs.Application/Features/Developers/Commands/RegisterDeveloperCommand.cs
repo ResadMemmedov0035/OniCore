@@ -60,13 +60,13 @@ namespace KodlamaDevs.Application.Features.Developers.Commands
             OperationClaim claim = await _operationClaimRepository.GetAsync(x => x.Name == OperationClaims.User);
             developer.OperationClaims.Add(claim);
 
-            Developer createdDeveloper = await _developerRepository.AddAsync(developer);
+            Developer createdDeveloper = await _developerRepository.CreateAsync(developer);
 
             #endregion
 
             AccessToken accessToken = _tokenService.CreateToken(createdDeveloper);
             RefreshToken refreshToken = _tokenService.CreateRefreshToken(developer, request.IpAddress);
-            RefreshToken createdRefreshToken = await _refreshTokenRepository.AddAsync(refreshToken);
+            RefreshToken createdRefreshToken = await _refreshTokenRepository.CreateAsync(refreshToken);
 
             return new RegisteredDeveloperDTO
             {

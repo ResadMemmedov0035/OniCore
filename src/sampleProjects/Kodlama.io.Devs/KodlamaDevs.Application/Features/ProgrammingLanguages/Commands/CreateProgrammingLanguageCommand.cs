@@ -25,7 +25,7 @@ public class CreateProgrammingLanguageCommandHandler : IRequestHandler<CreatePro
         await _rules.NameCannotBeDuplicated(request.Name);
 
         ProgrammingLanguage pl = new() { Name = request.Name };
-        ProgrammingLanguage createdPl = await _repository.AddAsync(pl);
+        ProgrammingLanguage createdPl = await _repository.CreateAsync(pl);
         return new CreatedProgrammingLanguageDTO(createdPl.Id, createdPl.Name);
     }
 }

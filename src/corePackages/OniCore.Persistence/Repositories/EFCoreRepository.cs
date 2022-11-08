@@ -7,8 +7,10 @@ using System.Linq.Expressions;
 
 namespace OniCore.Persistence.Repositories
 {
-    // TODO: 
-    // SaveChanges(maybe), IQuery(why is this necessary anyway)
+    // TODO:
+    // In future, the repository may not support AsTracking. Only AsNoTracking
+    // maybe SaveChanges,
+    // why IQuery is necessary anyway?
 
     public class EFCoreRepository<TEntity> : IRepository<TEntity>, IAsyncRepository<TEntity>, IQuery<TEntity>
         where TEntity : Entity, new()
@@ -63,7 +65,7 @@ namespace OniCore.Persistence.Repositories
             return query.ToPagedList(pageParams);
         }
 
-        public TEntity Add(TEntity entity)
+        public TEntity Create(TEntity entity)
         {
             Context.Entry(entity).State = EntityState.Added;
             Context.SaveChanges();
@@ -130,7 +132,7 @@ namespace OniCore.Persistence.Repositories
             return await Task.FromResult(query.ToPagedList(pageParams)).ConfigureAwait(false);
         }
 
-        public async Task<TEntity> AddAsync(TEntity entity)
+        public async Task<TEntity> CreateAsync(TEntity entity)
         {
             Context.Entry(entity).State = EntityState.Added;
             await Context.SaveChangesAsync();

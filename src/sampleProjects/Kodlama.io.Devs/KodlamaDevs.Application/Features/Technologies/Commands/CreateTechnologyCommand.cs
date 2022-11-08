@@ -31,7 +31,7 @@ namespace KodlamaDevs.Application.Features.Technologies.Commands
             await _businessRules.NameCannotBeDuplicated(request.Name);
 
             Technology technology = _mapper.Map<Technology>(request);
-            Technology addedTechnology = await _repository.AddAsync(technology);
+            Technology addedTechnology = await _repository.CreateAsync(technology);
             return _mapper.Map<CreatedTechnologyDTO>(addedTechnology);
         }
     }
