@@ -6,9 +6,9 @@ using OniCore.Persistence.Pagination;
 
 namespace KodlamaDevs.Application.Features.Technologies.Profiles
 {
-    public class MappingProfiles : Profile
+    public class MappingProfile : Profile
     {
-        public MappingProfiles()
+        public MappingProfile()
         {
             CreateMap<Technology, CreateTechnologyCommand>().ReverseMap();
             CreateMap<Technology, CreatedTechnologyDTO>().ReverseMap();

@@ -17,9 +17,11 @@ namespace KodlamaDevs.WebAPI.Controllers
             return CreatedAtAction(nameof(GetById), new { created.Id }, created);
         }
 
-        [HttpPut]
-        public async Task<IActionResult> Update([FromBody] UpdateProgrammingLanguageCommand updateCommand)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateProgrammingLanguageCommand updateCommand)
         {
+            if (id != updateCommand.Id) return BadRequest(id);
+
             UpdatedProgrammingLanguageDTO updated = await Mediator.Send(updateCommand);
             return Ok(updated);
         }
