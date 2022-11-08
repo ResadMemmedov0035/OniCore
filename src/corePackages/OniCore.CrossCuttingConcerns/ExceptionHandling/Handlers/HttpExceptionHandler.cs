@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
-using OniCore.CrossCuttingConcerns.Exceptions.CustomExceptions;
-using OniCore.CrossCuttingConcerns.Exceptions.HttpProblemDetails;
+using OniCore.CrossCuttingConcerns.ExceptionHandling.Exceptions;
+using OniCore.CrossCuttingConcerns.ExceptionHandling.HttpProblemDetails;
 using System.Security.Claims;
 
-namespace OniCore.CrossCuttingConcerns.Exceptions.Handlers
+namespace OniCore.CrossCuttingConcerns.ExceptionHandling.Handlers
 {
     public class HttpExceptionHandler : ExceptionHandler
     {
@@ -15,7 +15,7 @@ namespace OniCore.CrossCuttingConcerns.Exceptions.Handlers
         private readonly string _logMessageTemplate = "Message: {Message} | User: {@User}";
 
         public HttpResponse Response
-        { 
+        {
             get => _response ?? throw new ArgumentNullException(nameof(_response));
             set => _response = value;
         }

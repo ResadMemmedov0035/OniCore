@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 
-namespace OniCore.CrossCuttingConcerns.Exceptions
+namespace OniCore.CrossCuttingConcerns.ExceptionHandling.Middleware
 {
     public static class ExceptionMiddlewareExtensions
     {

@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
-using OniCore.CrossCuttingConcerns.Exceptions.Handlers;
+using OniCore.CrossCuttingConcerns.ExceptionHandling.Handlers;
 using System.Net.Mime;
 
-namespace OniCore.CrossCuttingConcerns.Exceptions
+namespace OniCore.CrossCuttingConcerns.ExceptionHandling.Middleware
 {
     public class ExceptionMiddleware
     {
@@ -15,7 +15,7 @@ namespace OniCore.CrossCuttingConcerns.Exceptions
             _handler = handler;
         }
 
-        public async Task Invoke(HttpContext context) 
+        public async Task Invoke(HttpContext context)
         {
             try
             {

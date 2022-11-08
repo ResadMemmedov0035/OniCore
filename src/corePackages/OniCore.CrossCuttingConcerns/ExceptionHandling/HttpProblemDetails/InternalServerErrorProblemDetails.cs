@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace OniCore.CrossCuttingConcerns.Exceptions.HttpProblemDetails
+namespace OniCore.CrossCuttingConcerns.ExceptionHandling.HttpProblemDetails
 {
     internal class InternalServerErrorProblemDetails : ProblemDetails
     {

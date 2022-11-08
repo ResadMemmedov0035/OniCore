@@ -1,8 +1,7 @@
 ﻿using FluentValidation;
-using Microsoft.Extensions.Logging;
-using OniCore.CrossCuttingConcerns.Exceptions.CustomExceptions;
+using OniCore.CrossCuttingConcerns.ExceptionHandling.Exceptions;
 
-namespace OniCore.CrossCuttingConcerns.Exceptions.Handlers
+namespace OniCore.CrossCuttingConcerns.ExceptionHandling.Handlers
 {
     public abstract class ExceptionHandler
     {

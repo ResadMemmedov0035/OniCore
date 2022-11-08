@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
-namespace OniCore.CrossCuttingConcerns.Exceptions.HttpProblemDetails
+namespace OniCore.CrossCuttingConcerns.ExceptionHandling.HttpProblemDetails
 {
     public static class ProblemDetailsExtensions
     {

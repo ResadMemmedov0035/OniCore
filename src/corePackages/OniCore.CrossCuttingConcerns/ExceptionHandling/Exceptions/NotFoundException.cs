@@ -1,4 +1,4 @@
-﻿namespace OniCore.CrossCuttingConcerns.Exceptions.CustomExceptions
+﻿namespace OniCore.CrossCuttingConcerns.ExceptionHandling.Exceptions
 {
     public class NotFoundException : Exception
     {
